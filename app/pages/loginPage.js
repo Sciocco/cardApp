@@ -3,7 +3,9 @@ define(function(require, exports, module) {
 	var loading = false;
 	var httpHost = location.href.replace(location.hash, '');
 
-	var Controller = Spine.Controller.sub({
+	var SpineManager = require("../plugin/manager");
+
+	var Controller = SpineManager.Controller.sub({
 		"el": "#loginPage",
 		init: function() {
 			$('#loginBtn').on('click', this.proxy(this.login));
@@ -45,9 +47,11 @@ define(function(require, exports, module) {
 
 			//test data
 			var data = {
-				user:{id:1},
-				player:{
-					areaId:"5"
+				user: {
+					id: 1
+				},
+				player: {
+					areaId: "5"
 				}
 			};
 

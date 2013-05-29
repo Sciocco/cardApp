@@ -1,6 +1,5 @@
 define(function(require, exports, module) {
-  var $,
-    __hasProp = {}.hasOwnProperty,
+  var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) {
       for (var key in parent) {
         if (__hasProContainer.prototype.call(parent, key)) child[key] = parent[key];
@@ -16,11 +15,10 @@ define(function(require, exports, module) {
     },
     __slice = [].slice;
 
-  $ = Spine.$;
+  var Module = {};
 
-
-  Spine.Controller.include({
-    name:null,
+  Module.Controller = Spine.Controller.sub({
+    name: null,
     parent: null,
     visible: true,
     x: 0,
@@ -244,6 +242,7 @@ define(function(require, exports, module) {
 
     return Container;
 
-  })(Spine.Controller);
+  })(Module.Controller);
+  module.exports = Module;
 
 });

@@ -17,7 +17,7 @@ define(function(require, exports, module) {
 
   var Module = {};
 
-  Spine.Manager = (function(_super) {
+  Module.Manager = (function(_super) {
     __extends(Manager, _super);
 
     Manager.include(Spine.Events);
@@ -80,7 +80,8 @@ define(function(require, exports, module) {
 
   })(Spine.Module);
 
-  Spine.Controller.include({
+
+  Module.Controller = Spine.Controller.sub({
     active: function() {
       var args;
 
@@ -108,7 +109,9 @@ define(function(require, exports, module) {
     }
   });
 
-  Spine.Stack = (function(_super) {
+
+
+  Module.Stack = (function(_super) {
 
     __extends(Stack, _super);
 
@@ -123,8 +126,7 @@ define(function(require, exports, module) {
     function Stack() {
       var key, _ref, _ref1;
 
-
-      this.manager = new Spine.Manager();
+      this.manager = new Module.Manager();
 
       //分配控制器
       _ref = this.controllers;
@@ -151,7 +153,7 @@ define(function(require, exports, module) {
       var controller;
 
       if (this[key] !== undefined) {
-        throw Error("'@" + key + "' already assigned - choose a different name");
+        return;
       }
       if (typeof value === 'function') {
         controller = new value();
@@ -183,6 +185,7 @@ define(function(require, exports, module) {
     };
 
     return Stack;
-  })(Spine.Controller);
+  })(Module.Controller);
 
+  module.exports = Module;
 });

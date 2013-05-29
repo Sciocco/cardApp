@@ -4,7 +4,9 @@ define(function(require, exports, module) {
 	var soundManager = require("../utils/soundManager");
 
 
-	var Controller = Spine.Controller.sub({
+	var SpineManager = require("../plugin/manager");
+
+	var Controller = SpineManager.Controller.sub({
 		"el": "#loadPage",
 		init: function() {
 
@@ -44,7 +46,7 @@ define(function(require, exports, module) {
 			resourceLoader.addEventListener("complete", function(event) {
 				setTimeout(function() {
 					_this.stack.enterScene();
-				}, 115500);
+				}, 1000);
 			});
 
 			resourceLoader.loadAreaResource(data);

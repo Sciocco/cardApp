@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/global.css" rel="stylesheet">
     <link href="assets/css/app.css" rel="stylesheet">
     <title>塔防MT</title>
   </head>
@@ -27,16 +27,37 @@
         </div>
       </div>
       <div id="gamePage" class="page hide">
-        <div id="cityScene" class="scene hide">
-          <div id="cityCanvas"  class="canvasLayer">
-            <canvas></canvas>
+        <div id="content">
+          <div id="mainPanel" class="panel hide">
+            defaultPanel
           </div>
-          <div id="cityMiddle" class="middleLayer">
+          <div id="dungeonPanel"  class="panel hide">
+            dungeonPanel
+          </div>
+          <div id="fightPanel" class="panel hide">
+            fightPanel
+          </div>
+          <div id="shopPanel" class="panel hide">
+            shopPanel
+          </div>
+          <div id="friendPanel" class="panel hide">
+            friendPanel
+          </div>
+          <div id="strategyPanel" class="panel hide">
+            strategyPanel
           </div>
         </div>
-        <div id="fightScene" class="scene hide">
-          ssss
+        <div id="navbar">
+          <a href="#/panel/main" class="icon home">首页</a>
+          <a href="#/panel/dungeon" class="icon dungeon">副本</a>
+          <a href="#/panel/fight" class="icon fight">战斗</a>
+          <a href="#/panel/shop" class="icon shop">商店</a>
+          <a href="#/panel/friend" class="icon friend">好友</a>
+          <a href="#/panel/strategy" class="icon strategy">攻略</a>
         </div>
+      </div>
+      <div id="fightPage" class="page hide">
+        <canvas id="fightCanvas"></canvas>
       </div>
     </div>
     <script src="libs/zepto/1.0/zepto.js"></script>
