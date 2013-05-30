@@ -1,11 +1,9 @@
 define(function(require, exports, module) {
 
-    var that = require("./noTransition");
-
     function slideDownTransition(oldDiv, currDiv, back) {
         oldDiv.style.display = "block";
         currDiv.style.display = "block";
-  
+        var that = this
         if (back) {
             currDiv.style.zIndex = 1;
             oldDiv.style.zIndex = 2;
@@ -64,6 +62,5 @@ define(function(require, exports, module) {
             });
         }
     }
-
-    module.exports= slideDownTransition;
+    module.exports = slideDownTransition;
 });

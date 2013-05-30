@@ -3,9 +3,7 @@ define(function(require, exports, module) {
 	var loading = false;
 	var httpHost = location.href.replace(location.hash, '');
 
-	var SpineManager = require("../plugin/manager");
-
-	var Controller = SpineManager.Controller.sub({
+	var Controller = Spine.Controller.sub({
 		"el": "#loginPage",
 		init: function() {
 			$('#loginBtn').on('click', this.proxy(this.login));
@@ -73,7 +71,7 @@ define(function(require, exports, module) {
 			app.areaId = areaId;
 			app.player = playerData;
 			//加载资源
-			this.stack.loadResource();
+			this.parent.loadResource();
 		}
 
 	});

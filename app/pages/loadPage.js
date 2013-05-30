@@ -4,12 +4,10 @@ define(function(require, exports, module) {
 	var soundManager = require("../utils/soundManager");
 
 
-	var SpineManager = require("../plugin/manager");
-
-	var Controller = SpineManager.Controller.sub({
+	var Controller = Spine.Controller.sub({
 		"el": "#loadPage",
 		init: function() {
-
+			this.on('contentLoad',this.proxy(this.contentLoad));
 		},
 		contentLoad: function(oldController) {
 			var _this = this;
@@ -45,7 +43,7 @@ define(function(require, exports, module) {
 			//进入场景页面
 			resourceLoader.addEventListener("complete", function(event) {
 				setTimeout(function() {
-					_this.stack.enterScene();
+					_this.parent.enterScene();
 				}, 1000);
 			});
 

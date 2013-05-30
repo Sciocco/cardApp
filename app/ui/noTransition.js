@@ -3,15 +3,15 @@ define(function(require, exports, module) {
     var css3animate = require("./jq.css3animate");
 
 
-    noTransition= {
+    noTransition = {
 
-        finishCallback:null,
+        finishCallback: null,
 
         css3animate: function(el, opts) {
             el = $(el);
             return el.css3Animate(opts);
         },
- 
+
         /**
          * This is the default transition.  It simply shows the new panel and hides the old
          */
@@ -41,9 +41,8 @@ define(function(require, exports, module) {
             if (oldDiv)
                 this.clearAnimations(oldDiv);
 
-            if(this.finishCallback !== null)
-            {
-                finishCallback();
+            if (this.finishCallback !== null) {
+                this.finishCallback();
             }
         },
 

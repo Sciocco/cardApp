@@ -1,21 +1,15 @@
 define(function(require, exports, module) {
-	var app = require("../app");
 
-	var mainPanel = require("../panels/mainPanel");
-
-	var SpineManager = require("../plugin/manager");
-
-	var Controller = SpineManager.Stack.sub({
+	var SpineStack = require("../mvc/stack");
+	
+	var Controller = SpineStack.sub({
 		"el": "#gamePage",
-		controllers: {
-			main: mainPanel
-		},
+		"transition": 'down',
 		routes: {
 			"/panel/main": 'main',
 			"/panel/dungeon": 'dungeon',
 			"/panel/fight": 'fight'
 		},
-		'default': "main",
 		init: function() {
 			var _this = this;
 			$("#navbar").delegate("a", "click", function() {
@@ -23,18 +17,21 @@ define(function(require, exports, module) {
 				switch (route) {
 					case '/panel/dungeon':
 						var dungeonPanel = require("../panels/dungeonPanel");
-						_this.addController("dungeon", dungeonPanel);
+						_this.addChild("dungeon", dungeonPanel);
 						break;
 					case '/panel/fight':
 						var fightPanel = require("../panels/fightPanel");
-						_this.addController("fight", fightPanel);
+						_this.addChild("fight", fightPanel);
 						break;
 				}
 				_this.navigate(route);
 			});
+			this.on('contentLoad', this.proxy(this.contentLoad));
 		},
-		contentLoad: function(oldController) {
-
+		contentLoad: function() {
+			var mainPanel = require("../panels/mainPanel");
+			this.addChild("main", mainPanel);
+			this.navigate("/panel/main", true);
 		}
 	});
 

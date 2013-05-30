@@ -8,8 +8,6 @@ define(function(require, exports, module) {
     var getEl = function(elID) {
         if (typeof elID == "string" || elID instanceof String) {
             return document.getElementById(elID);
-        } else if ($.is$(elID)) {
-            return elID[0];
         } else {
             return elID;
         }

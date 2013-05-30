@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="g-doc" class="container">
-      <div id="loginPage" class="page hide">
+      <div id="loginPage" class="page ">
         <div class="form-signin">
           <h2 class="form-signin-heading">Please sign in</h2>
           <input type="text" class="input-block-level" placeholder="Email address" autofocus  id="loginUser">
@@ -20,43 +20,70 @@
           <button class="btn btn-large btn-primary btn-block" type="submit" id="loginBtn">登陆</button>
         </div>
       </div>
-      <div id="loadPage" class="page hide">
+      <div id="loadPage" class="page ">
         <div class="m-loadtt">
           <img  src="assets/images/loadtt.png">
           <span class="percent"><span>(</span><span id="id_loadPercent">58</span><span>%)</span></span>
         </div>
       </div>
-      <div id="gamePage" class="page hide">
+      <div id="gamePage" class="page ">
         <div id="content">
-          <div id="mainPanel" class="panel hide">
-            defaultPanel
+          <div id="mainPanel" class="panel ">
+            <div class="panel-heading">
+              <button type="button" class="btn btn-default">返回</button>
+            </div>
+            <div class="row">
+              <div class="col col-sm-6">
+                <ul  data-liffect="slideLeft" class="slideLeft">
+                  <li><a href="">英雄列表</a></li>
+                  <li><a href="">英雄进化</a></li>
+                  <li><a href="">英雄技能</a></li>
+                </ul>
+              </div>
+              <div class="col col-sm-6">
+                <ul data-liffect="slideRight" class="slideRight">
+                  <li><a href="">英雄升级</a></li>
+                  <li><a href="">英雄商店</a></li>
+                  <li><a href="">英雄预览</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div id="dungeonPanel"  class="panel hide">
-            dungeonPanel
+          <div id="dungeonPanel"  class="panel ">
+            <ul>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
           </div>
-          <div id="fightPanel" class="panel hide">
+          <div id="fightPanel" class="panel ">
             fightPanel
           </div>
-          <div id="shopPanel" class="panel hide">
+          <div id="shopPanel" class="panel ">
             shopPanel
           </div>
-          <div id="friendPanel" class="panel hide">
+          <div id="friendPanel" class="panel ">
             friendPanel
           </div>
-          <div id="strategyPanel" class="panel hide">
+          <div id="strategyPanel" class="panel ">
             strategyPanel
           </div>
         </div>
-        <div id="navbar">
-          <a href="#/panel/main" class="icon home">首页</a>
-          <a href="#/panel/dungeon" class="icon dungeon">副本</a>
-          <a href="#/panel/fight" class="icon fight">战斗</a>
-          <a href="#/panel/shop" class="icon shop">商店</a>
-          <a href="#/panel/friend" class="icon friend">好友</a>
-          <a href="#/panel/strategy" class="icon strategy">攻略</a>
+        <div class="navbar navbar-fixed-bottom" id="navbar">
+          <ul class="nav">
+            <li> <a href="#/panel/main" class="icon home">首页<span class="jq-badge">6</span></a></li>
+            <li> <a href="#/panel/dungeon" class="icon dungeon">副本</a></li>
+            <li>   <a href="#/panel/fight" class="icon fight">战斗</a></li>
+            <li>  <a href="#/panel/shop" class="icon shop">商店</a></li>
+            <li>  <a href="#/panel/shop" class="icon shop">商店</a></li>
+            <li>  <a href="#/panel/shop" class="icon shop">商店</a></li>
+          </ul>
         </div>
       </div>
-      <div id="fightPage" class="page hide">
+      <div id="fightPage" class="page ">
         <canvas id="fightCanvas"></canvas>
       </div>
     </div>

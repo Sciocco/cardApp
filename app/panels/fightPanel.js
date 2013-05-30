@@ -1,9 +1,8 @@
 define(function(require, exports, module) {
 
-	var SpineManager = require("../plugin/manager");
-
-	var Controller = SpineManager.Controller.sub({
+	var Controller = Spine.Controller.sub({
 		"el": "#fightPanel",
+		"transition":'down',
 		init: function() {
 
 		}

@@ -1,9 +1,7 @@
 define(function(require, exports, module) {
-
-	var SpineManager = require("../plugin/manager");
-
-	var Controller = SpineManager.Controller.sub({
+	var Controller = Spine.Controller.sub({
 		"el": "#dungeonPanel",
+		"transition":'slide',
 		init: function() {
 
 		}

@@ -154,7 +154,7 @@ define(function(require, exports, module) {
         $('BODY DIV#mask').bind("touchmove", function(e) {
             e.preventDefault();
         });
-        uiBlocked = true
+        uiBlocked = true;
     };
 
     $.unblockUI = function() {
@@ -169,10 +169,11 @@ define(function(require, exports, module) {
     window.alert = function(text) {
         if (text === null || text === undefined)
             text = "null";
-        if ($("#jQUi").length > 0)
-            $("#jQUi").popup(text.toString());
-        else
-            $(document.body).popup(text.toString());
-    }
-
+        $(document.body).popup({
+            suppressTitle: true,
+            message: text.toString(),
+            cancelOnly: "true",
+            cancelText: "OK"
+        });
+    };
 });

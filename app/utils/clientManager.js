@@ -1,13 +1,9 @@
 define(function(require, exports, module) {
-	//加载插件
-	require("../plugin/zepto.extend");
-	require("../plugin/popup");
 
-	var SpineManager = require("../plugin/manager");
+	var SpineStack = require("../mvc/stack");
 	var loginPage = require("../pages/loginPage");
-	var app = require("../app");
 
-	var ClientManager = SpineManager.Stack.sub({
+	var ClientManager = SpineStack.sub({
 		"el": "#g-doc",
 		controllers: {
 			login: loginPage
@@ -18,7 +14,7 @@ define(function(require, exports, module) {
 			"/page/game": "game",
 			"/page/fight": "fight"
 		},
-		'default': "load",
+		'default': "/page/login",
 		init: function() {
 			//初始化路由,兼容手机版本去除history
 			Spine.Route.setup({
@@ -27,17 +23,18 @@ define(function(require, exports, module) {
 				shim: true,
 				replace: false
 			});
-
-			this.loadResource();
+			
+			this['default'] = '/page/load';
+			this.on('defaultRoute', this.proxy(this.loadResource));
 		},
 		loadResource: function() {
 			var loadPage = require("../pages/loadPage");
-			this.addController("load", loadPage);
+			this.addChild("load", loadPage);
 			this.navigate("/page/load", true);
 		},
 		enterScene: function() {
 			var panelManager = require("./panelManager");
-			this.addController("game", panelManager);
+			this.addChild("game", panelManager);
 			this.navigate("/page/game", true);
 		}
 	});
