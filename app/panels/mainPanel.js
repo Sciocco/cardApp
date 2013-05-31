@@ -7,59 +7,24 @@ define(function(require, exports, module) {
 			this.bind("contentLoad", this.contentLoad);
 		},
 		contentLoad: function() {
-			var size = $(".slideLeft li").size() - 1;
-			var time = 500;
-
-			$(".slideLeft li").each(function(i) {
-				$(this).attr("style", "-webkit-animation-delay:" + i * 500 + "ms");
-				if (i == size) {
-					$(".slideLeft").addClass("play");
-				}
+			$(".slideLeft").listEffect({
+				effect: "slideInLeft"
 			});
-
-			$(".slideRight li").each(function(i) {
-				$(this).attr("style", "-webkit-animation-delay:" + i * 500 + "ms");
-				if (i == size) {
-					$(".slideRight").addClass("play");
-				}
+			$(".slideRight").listEffect({
+				effect: "slideInRight"
 			});
-
-			setTimeout(function() {
-				$(".slideLeft").attr('data-liffect', 'slideLeftBack');
-				$(".slideRight").attr('data-liffect', 'slideRightBack');
-				$(".slideLeft").removeClass('play');
-				$(".slideRight").removeClass('play');
-
-			}, size * time + time);
 		},
 		contentUnload: function(callback) {
-
-			var size = $(".slideLeft li").size() - 1;
-			var time = 500;
-
-
-
-			$(".slideLeft li").each(function(i) {
-				$(this).attr("style", "-webkit-animation-delay:" + (size - i) * time + "ms");
-				if (i == size) {
-					$(".slideLeft").addClass("play");
-				}
+			$(".slideLeft").listEffect({
+				effect: "slideOutLeft",
+				reverse:true,
+				out:true
 			});
-
-			$(".slideRight li").each(function(i) {
-				$(this).attr("style", "-webkit-animation-delay:" + (size - i) * time + "ms");
-				if (i == size) {
-					$(".slideRight").addClass("play");
-				}
-			});
-
-			setTimeout(function() {
-				$(".slideLeft").attr('data-liffect', 'slideLeft');
-				$(".slideRight").attr('data-liffect', 'slideRight');
-				$(".slideLeft").removeClass('play');
-				$(".slideRight").removeClass('play');
-				callback();
-			}, size * time + time);
+			$(".slideRight").listEffect({
+				effect: "slideOutRight",
+				reverse:true,
+				out:true
+			}, callback);
 		}
 	});
 

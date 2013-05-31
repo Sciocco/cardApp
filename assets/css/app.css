@@ -212,71 +212,59 @@ body>div#mask {
   }
 }
 
-
-ul[data-liffect="slideLeft"] li {
-    opacity: 0;
-    position: relative;
-    -webkit-animation: slideLeft 600ms ease both;
-    -webkit-animation-play-state: paused;
-}
-
-ul[data-liffect="slideLeft"].play li {
+.liffect>li{opacity: 0;}
+.liffect.play li {
     -webkit-animation-play-state: running;
 }
 
-@-webkit-keyframes slideLeft {
-    0% { opacity: 0; left: -30px; }
+ul[data-liffect="slideInLeft"] li {
+    opacity: 0;
+    position: relative;
+    -webkit-animation: slideInLeft 500ms ease both;
+    -webkit-animation-play-state: paused;
+}
+
+
+@-webkit-keyframes slideInLeft {
+    0% { opacity: 0; left: -300px; }
+    100% { opacity: 1; left: 0; }
+}
+
+ul[data-liffect="slideInRight"] li {
+    opacity: 0;
+    position: relative;
+    -webkit-animation: slideInRight 500ms ease both;
+    -webkit-animation-play-state: paused;
+}
+
+@-webkit-keyframes slideInRight {
+    0% { opacity: 0; left: 300px; }
     100% { opacity: 1; left: 0; }
 }
 
 
-ul[data-liffect="slideRight"] li {
-    opacity: 0;
-    position: relative;
-    -webkit-animation: slideRight 600ms ease both;
-    -webkit-animation-play-state: paused;
-}
-
-ul[data-liffect="slideRight"].play li {
-    -webkit-animation-play-state: running;
-}
-
-@-webkit-keyframes slideRight {
-    0% { opacity: 0; left: 30px; }
-    100% { opacity: 1; left: 0; }
-}
-
-
-ul[data-liffect="slideLeftBack"] li {
+ul[data-liffect="slideOutLeft"] li {
     opacity: 1;
     position: relative;
-    -webkit-animation: slideLeftBack 600ms ease both;
+    -webkit-animation: slideOutLeft 500ms ease both;
     -webkit-animation-play-state: paused;
 }
 
-ul[data-liffect="slideLeftBack"].play li {
-    -webkit-animation-play-state: running;
-}
-
-@-webkit-keyframes slideLeftBack {
+@-webkit-keyframes slideOutLeft {
     0% { opacity: 1; left: 0; }
-    100% { opacity: 0; left: -30px; }
+    100% { opacity: 0; left: -300px; }
 }
 
 
-ul[data-liffect="slideRightBack"] li {
+ul[data-liffect="slideOutRight"] li {
     opacity: 1;
     position: relative;
-    -webkit-animation: slideRightBack 600ms ease both;
+    -webkit-animation: slideOutRight 500ms ease both;
     -webkit-animation-play-state: paused;
 }
 
-ul[data-liffect="slideRightBack"].play li {
-    -webkit-animation-play-state: running;
-}
-
-@-webkit-keyframes slideRightBack {
+@-webkit-keyframes slideOutRight {
     0% { opacity: 1; left: 0; }
-    100% { opacity: 0; left: 30px; }
+    100% { opacity: 0; left: 300px; }
 }
 

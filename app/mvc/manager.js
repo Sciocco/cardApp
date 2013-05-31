@@ -35,7 +35,6 @@ define(function(require, exports, module) {
 				child = new child();
 			}
 
-
 			if (child.parent) {
 				child.parent.removeChild(name);
 			}
@@ -50,7 +49,7 @@ define(function(require, exports, module) {
 			if (child) {
 				child.parent = null;
 			}
-			delete this.children[name];
+			this.children[name] = null;
 			return true;
 		};
 

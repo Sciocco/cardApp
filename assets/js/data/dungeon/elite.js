@@ -1,0 +1,70 @@
+define(function(require, exports, module) {
+	module.exports = [{
+			level: 1,
+			name: "哀嚎",
+			status: false,
+			id: 1
+		}, {
+			level: 2,
+			name: "死矿",
+			status: false,
+			id: 2
+		}, {
+			level: 3,
+			name: "银牙",
+			status: false,
+			id: 3
+		}, {
+			level: 4,
+			name: "沼泽",
+			status: false,
+			id: 4
+		}, {
+			level: 5,
+			name: "血色",
+			status: false,
+			id: 5
+		}, {
+			level: 6,
+			name: "高地",
+			status: false,
+			id: 6
+		}, {
+			level: 7,
+			name: "奥特曼",
+			status: false,
+			id: 7
+		}, {
+			level: 8,
+			name: "祖尔",
+			status: false,
+			id: 8
+		}, {
+			level: 9,
+			name: "玛拉得",
+			status: false,
+			id: 9
+		}, {
+			level: 10,
+			name: "厄运",
+			status: false,
+			id: 10
+		}, {
+			level: 11,
+			name: "神庙",
+			status: false,
+			id: 11
+		}, {
+			level: 12,
+			name: "黑石",
+			status: false,
+			id: 12
+		}, {
+			level: 13,
+			name: "黑下",
+			status: false,
+			id: 13
+		}
+	];
+
+});
