@@ -5159,3 +5159,17 @@ a.list-group-item.active > .badge,
     display: none !important;
   }
 }
+
+
+.page {
+  z-index:180;
+  width:100%;
+  height:100%;
+  display:none;
+  position:absolute; top:0px; left:0px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+}

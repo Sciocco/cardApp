@@ -32,6 +32,7 @@ define(function(require, exports, module) {
                 currController.trigger('contentLoad');
             };
         }
+
         transition = currController['transition'];
 
         if (!this.availableTransitions[transition]) {

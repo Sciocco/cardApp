@@ -26,12 +26,12 @@ define(function(require, exports, module) {
                 };
                 this.id = id = opts.id = opts.id || $.uuid(); //opts is passed by reference
                 var self = this;
-                this.title = opts.suppressTitle ? "" : (opts.title || "Alert");
+                this.title = opts.suppressTitle ? "" : (opts.title || "提示");
                 this.message = opts.message || "";
-                this.cancelText = opts.cancelText || "Cancel";
+                this.cancelText = opts.cancelText || "取消";
                 this.cancelCallback = opts.cancelCallback || function() {};
                 this.cancelClass = opts.cancelClass || "button";
-                this.doneText = opts.doneText || "Done";
+                this.doneText = opts.doneText || "确定";
                 this.doneCallback = opts.doneCallback || function(self) {
                     // no action by default
                 };
@@ -81,10 +81,10 @@ define(function(require, exports, module) {
                 })
 
                 if (this.cancelOnly) {
-                    $el.find('A#action').hide();
-                    $el.find('A#cancel').addClass('center');
+                    $el.find('a#action').hide();
+                    $el.find('a#cancel').addClass('center');
                 }
-                $el.find('A').each(function() {
+                $el.find('a').each(function() {
                     var button = $(this);
                     button.bind('click', function(e) {
                         if (button.attr('id') == 'cancel') {
@@ -125,8 +125,8 @@ define(function(require, exports, module) {
                 var self = this;
                 var $el = $("#" + self.id);
                 $el.unbind("close");
-                $el.find('BUTTON#action').unbind('click');
-                $el.find('BUTTON#cancel').unbind('click');
+                $el.find('button#action').unbind('click');
+                $el.find('button#cancel').unbind('click');
                 $el.unbind("orientationchange").remove();
                 queue.splice(0, 1);
                 if (queue.length > 0)
@@ -147,11 +147,11 @@ define(function(require, exports, module) {
         if (uiBlocked)
             return;
         opacity = opacity ? " style='opacity:" + opacity + ";'" : "";
-        $('BODY').prepend($("<div id='mask'" + opacity + "></div>"));
-        $('BODY DIV#mask').bind("touchstart", function(e) {
+        $('body').prepend($("<div id='mask'" + opacity + "></div>"));
+        $('body div#mask').bind("touchstart", function(e) {
             e.preventDefault();
         });
-        $('BODY DIV#mask').bind("touchmove", function(e) {
+        $('body div#mask').bind("touchmove", function(e) {
             e.preventDefault();
         });
         uiBlocked = true;
@@ -159,9 +159,9 @@ define(function(require, exports, module) {
 
     $.unblockUI = function() {
         uiBlocked = false;
-        $('BODY DIV#mask').unbind("touchstart");
-        $('BODY DIV#mask').unbind("touchmove");
-        $("BODY DIV#mask").remove();
+        $('body div#mask').unbind("touchstart");
+        $('body div#mask').unbind("touchmove");
+        $("body div#mask").remove();
     };
     /**
      * Here we override the window.alert function due to iOS eating touch events on native alerts

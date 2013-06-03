@@ -1,8 +1,7 @@
 define(function(require, exports, module) {
-
+	require('../mvc/route');
 	var SpineStack = require("../mvc/stack");
 	var loginPage = require("../pages/loginPage");
-
 	var ClientManager = SpineStack.sub({
 		"el": "#g-doc",
 		controllers: {
@@ -10,7 +9,6 @@ define(function(require, exports, module) {
 		},
 		routes: {
 			"/page/login": 'login',
-			"/page/load": 'load',
 			"/page/game": "game",
 			"/page/fight": "fight"
 		},
@@ -23,26 +21,20 @@ define(function(require, exports, module) {
 				shim: true,
 				replace: false
 			});
-			
-			this['default'] = '/page/load';
-			this.on('defaultRoute', this.proxy(this.loadResource));
+			// this['default'] = '/page/game';
+			// this.bind('defaultRoute', this.proxy(this.enterGame));
 		},
-		loadResource: function() {
-			var loadPage = require("../pages/loadPage");
-			this.addChild("load", loadPage);
-			this.navigate("/page/load", true);
-		},
-		enterScene: function() {
-			var panelManager = require("./panelManager");
-			this.addChild("game", panelManager);
+		enterGame: function() {
+			var gamePage = require("../pages/gamePage");
+			this.addChild("game", gamePage);
 			this.navigate("/page/game", true);
 		}
 	});
 
-	function init() {
+	function run() {
 		var clientManager = new ClientManager();
 		return clientManager;
 	}
 
-	exports.init = init;
+	exports.run = run;
 });
