@@ -13,13 +13,13 @@ define(function(require, exports, module) {
 		init: function() {
 			var _this = this;
 			$("#navbar").delegate("a", "click", function() {
-				var route = $(this).attr("href").substr(1);
+				var route = $(this).attr("href");
 				switch (route) {
-					case '/panel/dungeon':
+					case '#/panel/dungeon':
 						var dungeonPanel = require("../panels/dungeonPanel");
 						_this.addChild("dungeon", dungeonPanel);
 						break;
-					case '/panel/fight':
+					case '#/panel/fight':
 						var fightPanel = require("../panels/fightPanel");
 						_this.addChild("fight", fightPanel);
 						break;

@@ -157,10 +157,9 @@ this.APP = this.APP || {};
   };
 
   p.playBgSound = function() {
-    var instance = null;
+    var instance = SoundManager.sounds[BG_SOUND];
 
-    if (this.bgSoundStatus === ON_SOUND) {
-      instance = SoundManager.sounds[BG_SOUND];
+    if (this.bgSoundStatus === ON_SOUND && instance) {
       instance.play(createjs.Sound.INTERRUPT_ANY, 0, 0, -1);
     }
     return instance;
@@ -205,7 +204,7 @@ this.APP = this.APP || {};
     if (preload) {
       preload.close();
     }
-    preload = new createjs.LoadQueue(false, app.config.ASSET_URL);
+    preload = new createjs.LoadQueue(false);
     createjs.Sound.registerPlugin(createjs.HTMLAudioPlugin);
     preload.installPlugin(createjs.Sound);
 
@@ -265,6 +264,12 @@ this.APP = this.APP || {};
     });
   }
 
+  function loadLocalSound() {
+      resources.sounds.forEach(function(v){
+         soundManager.addSound(v.id, new Media(v.src));
+      });
+  }
+
   function stop() {
     if (preload !== null) {
       preload.close();
@@ -286,6 +291,7 @@ this.APP = this.APP || {};
     });
 
     preload.loadManifest(resources.sounds, false, app.config.ASSET_URL);
+
     preload.load();
   };
   app.preload = preload;

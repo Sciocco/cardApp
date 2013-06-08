@@ -10,7 +10,7 @@ define(function(require, exports, module) {
 		routes: {
 			"/page/login": 'login',
 			"/page/game": "game",
-			"/page/fight": "fight"
+			"/page/fight/:fb1/:fb2": "fight"
 		},
 		'default': "/page/login",
 		init: function() {
@@ -21,13 +21,18 @@ define(function(require, exports, module) {
 				shim: true,
 				replace: false
 			});
-			// this['default'] = '/page/game';
-			// this.bind('defaultRoute', this.proxy(this.enterGame));
+			this['default'] = '/page/game';
+			this.bind('defaultRoute', this.proxy(this.enterGame));
 		},
 		enterGame: function() {
 			var gamePage = require("../pages/gamePage");
 			this.addChild("game", gamePage);
 			this.navigate("/page/game", true);
+		},
+		enterFight: function(route) {
+			var fightPage = require("../pages/fightPage");
+			this.addChild("fight", fightPage);
+			this.navigate(route, true);
 		}
 	});
 

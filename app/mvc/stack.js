@@ -13,6 +13,7 @@ define(function(require, exports, module) {
       child.__super__ = parent.prototype;
       return child;
     },
+      __slice = [].slice,
     Manager = require("./manager"),
     transitionManager = require("../ui/transitionManager");
 
@@ -51,17 +52,21 @@ define(function(require, exports, module) {
 
     Stack.prototype.addRoute = function(key, value) {
       var _ref2, callback;
+
+      var _this =this;
+
       if (typeof value === 'function') {
         callback = value;
       } else {
-        callback = this.proxy(function() {
-          _ref2 = this.getChildAt(value);
-          if (this.oldController === _ref2) {
+        callback = function(params) {
+          _ref2 = _this.getChildAt(value);
+          if (_this.oldController === _ref2) {
             return;
           }
-          this.render(this.oldController, _ref2);
-          this.oldController = _ref2;
-        });
+          _ref2.params = params;
+          _this.render(_this.oldController, _ref2);
+          _this.oldController = _ref2;
+        };
       }
       return this.route(key, callback);
     };
