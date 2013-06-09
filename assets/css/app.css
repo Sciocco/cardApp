@@ -1,4 +1,5 @@
 
+
 #content{
   z-index:180;
   display:block;
@@ -8,9 +9,6 @@
 }
 
 .panel{ display: none}
-
-
-
 
 .jq-badge {
   display:-webkit-box;
@@ -166,40 +164,6 @@ body>div#mask {
 
 
 
-
-
-@media screen and (min-width: 20px) {
-  .navbar-brand {
-    float: left;
-    margin-right: 5px;
-    margin-left: -5px;
-  }
-  .navbar .nav {
-    float: left;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  .navbar .nav > li {
-    float: left;
-  }
-  .navbar .nav > li > a {
-    border-radius: 0;
-  }
-  .navbar .nav.pull-right {
-    float: right;
-  }
-  .navbar-toggle {
-    position: relative;
-    top: auto;
-    left: auto;
-    display: none;
-  }
-  .nav-collapse.collapse {
-    height: auto !important;
-    overflow: visible !important;
-  }
-}
-
 .liffect>li{opacity: 0;}
 .liffect.play li {
     -webkit-animation-play-state: running;
@@ -256,3 +220,7 @@ ul[data-liffect="slideOutRight"] li {
     100% { opacity: 0; left: 300px; }
 }
 
+
+
+
+.funList ul li{ float: left}

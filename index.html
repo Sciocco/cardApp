@@ -2,16 +2,19 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,target- densitydpi=device-dpi">
+    <link href="assets/css/normalize.css" rel="stylesheet">
     <link href="assets/css/global.css" rel="stylesheet">
     <title>卡牌三国</title>
   </head>
   <body>
-    <div id="g-doc" class="container">
-      <div id="loadPage" class="page show">
-        <div class="m-loadtt">
-          <img  src="assets/images/loadtt.png">
-          <span class="percent"><span>(</span><span id="id_loadPercent">0</span><span>%)</span></span>
+    <div id="g-doc">
+      <div id="loadPage" class="page show ">
+        <div class="center">
+          <div class="m-loadtt">
+            <img  src="assets/images/loadtt.png">
+            <span class="percent"><span>(</span><span id="id_loadPercent">0</span><span>%)</span></span>
+          </div>
         </div>
       </div>
       <div id="loginPage" class="page ">
@@ -33,22 +36,6 @@
               <option value="2">2区 乱荆之地</option>
               <option value="1">1区 阳光林地</option>
               <option value="2">2区 乱荆之地</option>
-              <option value="1">1区 阳光林地</option>
-              <option value="2">2区 乱荆之地</option>
-              <option value="1">1区 阳光林地</option>
-              <option value="2">2区 乱荆0之地</option>
-                    <option value="1">1区 阳光林地</option>
-              <option value="2">2区 乱荆之地</option>
-              <option value="1">1区 阳光林地</option>
-              <option value="2">2区 乱荆之地</option>
-              <option value="1">1区 阳光林地</option>
-              <option value="2">2区 乱荆之地</option>
-              <option value="1">1区 阳光林地</option>
-              <option value="2">2区 乱荆之地</option>
-              <option value="1">1区 阳光林地</option>
-              <option value="2">2区 乱荆之地</option>
-              <option value="1">1区 阳光林地</option>
-              <option value="2">2区 乱荆0之地</option>
             </select>
             </span>
           </div>
@@ -58,34 +45,45 @@
       <div id="gamePage" class="page ">
         <div id="content">
           <div id="mainPanel" class="panel ">
-            <div class="panel-heading">
-              <button type="button" class="btn btn-default">返回</button>
-            </div>
             <div class="row">
-              <div class="col col-sm-6">
-                <ul class="slideLeft liffect">
+              <div class="col col-6">
+                <ul class="nav slideLeft liffect">
                   <li><a href="">英雄列表</a></li>
                   <li><a href="">英雄进化</a></li>
                   <li><a href="">英雄技能</a></li>
                 </ul>
               </div>
-              <div class="col col-sm-6">
-                <ul class="slideRight liffect">
+              <div class="col col-6">
+                <ul class="nav slideRight liffect">
                   <li><a href="">英雄升级</a></li>
                   <li><a href="">英雄商店</a></li>
                   <li><a href="">英雄预览</a></li>
                 </ul>
               </div>
             </div>
+            <div class="funList navbar">
+              <ul class="nav">
+                <li><a href="#/fun/bag">背包</a></li>
+                <li><a href="#/fun/task">任务<span class="jq-badge">6</span></a></li>
+                <li><a href="#/fun/activity">活动</a></li>
+                <li><a href="#/fun/message">消息<span class="jq-badge">6</span></a></li>
+                <li><a href="#/fun/rank">排行</a></li>
+                <li><a href="#/fun/chat">聊天</a></li>
+                <li><a href="#/fun/improve">强化</a></li>
+                <li><a href="#/fun/handbook">图鉴</a></li>
+                <li><a href="#/fun/friend">好友</a></li>
+                <li><a href="#/fun/system">系统</a></li>
+              </ul>
+            </div>
           </div>
           <div id="dungeonPanel"  class="panel ">
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
+            <ul class="nav" id="enterFight">
+              <li><a href="#/page/fight/1/2">副本一</a></li>
+              <li><a href="#/page/fight/1/2">副本二</a></li>
+              <li><a href="#/page/fight/1/2">副本三</a></li>
+              <li><a href="#/page/fight/1/2">副本四</a></li>
+              <li><a href="#/page/fight/1/2">副本五</a></li>
+              <li><a href="#/page/fight/1/2">副本六</a></li>
             </ul>
           </div>
           <div id="fightPanel" class="panel ">
@@ -108,12 +106,10 @@
             <li>   <a href="#/panel/fight" class="icon fight">战斗</a></li>
             <li>  <a href="#/panel/shop" class="icon shop">商店</a></li>
             <li>  <a href="#/panel/shop" class="icon shop">商店</a></li>
-            <li>  <a href="#/panel/shop" class="icon shop">商店</a></li>
           </ul>
         </div>
       </div>
       <div id="fightPage" class="page ">
-        <canvas id="fightCanvas"></canvas>
       </div>
     </div>
     <!-- <script src="assets/js/load.js"></script>-->

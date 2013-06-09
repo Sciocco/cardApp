@@ -29,9 +29,6 @@ define(function(require, exports, module) {
 
 
 
-
-
-
 		this.sprite = new createjs.Sprite(this);
 	};
 

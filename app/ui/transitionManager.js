@@ -29,6 +29,7 @@ define(function(require, exports, module) {
         if (currController !== undefined) {
             currDiv = currController.el[0];
             noTransition.finishCallback = function() {
+                oldDiv.style.display = 'none';
                 currController.trigger('contentLoad');
             };
         }
