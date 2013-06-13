@@ -13,7 +13,7 @@ define(function(require, exports, module) {
       child.__super__ = parent.prototype;
       return child;
     },
-      __slice = [].slice,
+    __slice = [].slice,
     Manager = require("./manager"),
     transitionManager = require("../ui/transitionManager");
 
@@ -51,21 +51,23 @@ define(function(require, exports, module) {
     }
 
     Stack.prototype.addRoute = function(key, value) {
-      var _ref2, callback;
-
-      var _this =this;
+      var _ref2, callback, oldController;
+      var _this = this;
 
       if (typeof value === 'function') {
         callback = value;
       } else {
         callback = function(params) {
+          oldController = _this.oldController;
           _ref2 = _this.getChildAt(value);
           if (_this.oldController === _ref2) {
             return;
           }
           _ref2.params = params;
-          _this.render(_this.oldController, _ref2);
+          //在render设置oldController,避免回调失败再设置oldController
           _this.oldController = _ref2;
+
+          _this.render(oldController, _ref2);
         };
       }
       return this.route(key, callback);
@@ -73,6 +75,10 @@ define(function(require, exports, module) {
 
     Stack.prototype.render = function(oldController, currController) {
       transitionManager.runTransition(oldController, currController);
+    };
+
+    Stack.prototype.setOldController = function(controller) {
+      this.oldController = controller;
     };
 
     return Stack;

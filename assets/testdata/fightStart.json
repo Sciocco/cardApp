@@ -1,0 +1,49 @@
+{
+	"waits": {
+		"p": [{
+				"id": "p1",
+				"entityId": 2,
+				"level": 10
+			}, {
+				"id": "p2",
+				"entityId": 2,
+				"level": 10
+			}
+		],
+		"e": [{
+				"id": "e1",
+				"entityId": 2,
+				"level": 10
+			}, {
+				"id": "e2",
+				"entityId": 2,
+				"level": 10
+			}
+		]
+	},
+	"roles": {
+		"p": {
+				"id": "p0",
+				"hp": 1850,
+				"Rune": [1, 2, 3, 4]
+		},
+		"e": {
+				"id": "e0",
+				"hp": 1850,
+				"Rune": [1, 2, 3, 4]
+		}
+	},
+	"actionList": {
+		"e1": {
+			"target": {
+				"p1": {
+					"hurt": 300,
+					"status": "die",
+					"buffer": "fire"
+				},
+				"skill": "fire2"
+			}
+		}
+	},
+	"result": {}
+}

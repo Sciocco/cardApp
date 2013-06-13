@@ -1,4 +1,6 @@
 define(function(require, exports, module) {
+
+
 	var Controller = Spine.Controller.sub({
 		"el": "#dungeonPanel",
 		"transition": 'slide',
@@ -6,7 +8,7 @@ define(function(require, exports, module) {
 			var _this = this;
 			$("#enterFight").delegate('a', 'click', function() {
 				var route = $(this).attr("href");
-				_this.parent.parent.enterFight(route);
+				_this.parent.enterBattle(route);
 			});
 		}
 	});

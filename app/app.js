@@ -31,6 +31,14 @@ this.APP = this.APP || {};
     document.getElementsByTagName("head")[0].appendChild(node);
   };
 
+  app.ajaxLoading = function() {
+    $("#waitPage").show();
+  };
+
+  app.ajaxLoadingEnd = function() {
+    $("#waitPage").hide();
+  };
+
 })();
 
 /**
@@ -265,9 +273,9 @@ this.APP = this.APP || {};
   }
 
   function loadLocalSound() {
-      resources.sounds.forEach(function(v){
-         soundManager.addSound(v.id, new Media(v.src));
-      });
+    resources.sounds.forEach(function(v) {
+      soundManager.addSound(v.id, new Media(v.src));
+    });
   }
 
   function stop() {
@@ -290,6 +298,7 @@ this.APP = this.APP || {};
       ]
     });
 
+    preload.loadManifest(resources.images, false, app.config.ASSET_URL);
     preload.loadManifest(resources.sounds, false, app.config.ASSET_URL);
 
     preload.load();

@@ -9,10 +9,10 @@ define(function(require, exports, module) {
 
     TransitionManager.prototype.runTransition = function(oldController, currController, back) {
 
-        var oldDiv, currDiv, oldCallback, transition;
+        var oldDiv, currDiv, oldCallback, transition, contentLoadBefore;
         var _this = this;
 
-        oldCallback = function(callback) {
+        contentLoadBefore = oldCallback = function(callback) {
             callback();
         };
 
@@ -25,6 +25,8 @@ define(function(require, exports, module) {
             oldDiv = document.createElement('div');
         }
 
+
+
         noTransition.finishCallback = null;
         if (currController !== undefined) {
             currDiv = currController.el[0];
@@ -32,6 +34,13 @@ define(function(require, exports, module) {
                 oldDiv.style.display = 'none';
                 currController.trigger('contentLoad');
             };
+
+            if (typeof currController.contentLoadBefore === 'function') {
+                contentLoadBefore = currController.contentLoadBefore;
+            }
+        } else {
+            console.log("新控制器不能为空!");
+            return;
         }
 
         transition = currController['transition'];
@@ -49,9 +58,11 @@ define(function(require, exports, module) {
             }
         }
 
-        oldCallback(function() {
-            _this.availableTransitions[transition].call(noTransition, oldDiv, currDiv, back);
-        });
+        oldCallback.call(oldController, function() {
+            contentLoadBefore.call(currController, function() {
+                _this.availableTransitions[transition].call(noTransition, oldDiv, currDiv, back);
+            }, oldController);
+        }, currController);
     };
 
     transitionManager = new TransitionManager();

@@ -9,8 +9,7 @@ define(function(require, exports, module) {
 		},
 		routes: {
 			"/page/login": 'login',
-			"/page/game": "game",
-			"/page/fight/:fb1/:fb2": "fight"
+			"/page/game": "game"
 		},
 		'default': "/page/login",
 		init: function() {
@@ -28,12 +27,8 @@ define(function(require, exports, module) {
 			var gamePage = require("../pages/gamePage");
 			this.addChild("game", gamePage);
 			this.navigate("/page/game", true);
-		},
-		enterFight: function(route) {
-			var fightPage = require("../pages/fightPage");
-			this.addChild("fight", fightPage);
-			this.navigate(route, true);
 		}
+
 	});
 
 	function run() {

@@ -7,6 +7,10 @@
 				src: "sound/M-GameBG.mp3"
 			}
 		],
+		images:[{
+			id:"battleBg",
+			src:"images/battleBg.png"
+		}],
 		scripts: ['js/app.js'],
 		styles: ['css/app.css']
 	};

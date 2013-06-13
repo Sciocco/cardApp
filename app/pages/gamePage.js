@@ -8,7 +8,7 @@ define(function(require, exports, module) {
 		routes: {
 			"/panel/main": 'main',
 			"/panel/dungeon": 'dungeon',
-			"/panel/fight": 'fight'
+			"/panel/battle/:fb1/:fb2": "battle"
 		},
 		init: function() {
 			var _this = this;
@@ -32,6 +32,11 @@ define(function(require, exports, module) {
 			var mainPanel = require("../panels/mainPanel");
 			this.addChild("main", mainPanel);
 			this.navigate("/panel/main", true);
+		},
+		enterBattle: function(route) {
+			var battlePanel = require("../panels/battlePanel");
+			this.addChild("battle", battlePanel);
+			this.navigate(route, true);
 		}
 	});
 
