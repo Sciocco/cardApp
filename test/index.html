@@ -2,27 +2,27 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../assets/css/normalize.css" rel="stylesheet">
-    <link href="../assets/css/global.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+        <link href="../assets/css/normalize.css" rel="stylesheet">
+
     <style>
-      html,body,#g-doc{ height: 100%; background: #000}
-
-
+      html,body{ height: 100%;}
+      .test{width:320px; height:480px;background: #ff0; color:#000;}
     </style>
+    <script>
+    alert(window.devicePixelRatio);
+    alert(screen.width);
+    alert(window.innerWidth);
+
+
+  //  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,target-densitydpi=device-dpi">
+
+
+    </script>
+
     <title>卡牌三国</title>
   </head>
-  <body onload = "loadbody()">
-    <div id = "g-doc"></div>
-    
-    <script src="../libs/createjs/createjs.js"></script>
- 
-    <script src="js/load.js"></script>
-    <script type="text/javascript">
-          function loadbody(){
-
-            load();
-          }
-    </script>
+  <body>
+    <div class="test" id="test">这个是测试 </div>
   </body>
 </html>

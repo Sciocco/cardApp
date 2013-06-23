@@ -26,7 +26,7 @@ define(function(require, exports, module) {
 				}
 				_this.navigate(route);
 			});
-			this.on('contentLoad', this.proxy(this.contentLoad));
+			this.bind('contentLoad', this.proxy(this.enterBattle));
 		},
 		contentLoad: function() {
 			var mainPanel = require("../panels/mainPanel");
@@ -34,6 +34,9 @@ define(function(require, exports, module) {
 			this.navigate("/panel/main", true);
 		},
 		enterBattle: function(route) {
+
+			var route = '/panel/battle/1/2';
+
 			var battlePanel = require("../panels/battlePanel");
 			this.addChild("battle", battlePanel);
 			this.navigate(route, true);

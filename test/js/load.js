@@ -154,17 +154,17 @@
          y: 200
      });
 
-     readyCard.clickTime = 0;
+     // readyCard.clickTime = 0;
 
      readyCard.onPress = function(evt) {
          console.log(evt);
 
-         var currTime = Date.now();
-         if (currTime - readyCard.clickTime < 500) {
-             return;
-         }
+         // var currTime = Date.now();
+         // if (currTime - readyCard.clickTime < 500) {
+         //     return;
+         // }
 
-         readyCard.clickTime = currTime;
+         // readyCard.clickTime = currTime;
 
          if (isready === 0) {
              readyCard.sourceRect = dieRect;
@@ -176,10 +176,32 @@
              isready = 0;
          }
      };
+     addRect();
 
      stage.addChild(fightContainer, fightContainer2, readyCard, dieCard);
  }
 
+
+ function addRect() {
+     var graphics = new createjs.Graphics().beginFill("#990000").drawRect(0, 0, 200, 8);
+     var shape = new createjs.Shape(graphics);
+
+     var hp = new createjs.Container();
+
+     hp.addChild(shape).set({
+        x:158,
+        y:225
+     });
+
+     stage.addChild(hp);
+ }
+
+
+function addText(){
+
+
+    stage.addChild(text);
+}
 
 
  function tick(event) {

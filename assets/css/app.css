@@ -1,5 +1,3 @@
-
-
 #content{
   z-index:180;
   display:block;
@@ -12,14 +10,19 @@
 
 #gamePage{ position: relative;}
 
-#battlePanel{ background: #fff}
+#battlePanel{display: none;}
 #battlePanel{
   z-index: 5000 !important;
   width: 100%;
   height: 100%;
   position: absolute; left: 0; top: 0;
-
+  overflow: hidden;
 }
+
+
+#battleContainer{background:#000;}
+#battleContainer canvas{ }
+
 
 #waitPage{
  z-index: 10000 !important;
@@ -181,7 +184,7 @@ body>div#mask {
   display: -webkit-box;
 }
 .m-loadtt { margin: 0 auto; }
-.m-loadtt .percent { font-size: 14px; }
+.m-loadtt .percent { }
 
 
 
@@ -241,8 +244,5 @@ ul[data-liffect="slideOutRight"] li {
     0% { opacity: 1; left: 0; }
     100% { opacity: 0; left: 300px; }
 }
-
-
-
 
 .funList ul li{ float: left}

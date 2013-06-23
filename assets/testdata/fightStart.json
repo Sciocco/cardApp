@@ -2,48 +2,80 @@
 	"waits": {
 		"p": [{
 				"id": "p1",
-				"entityId": 2,
+				"entityId": 1,
 				"level": 10
 			}, {
 				"id": "p2",
-				"entityId": 2,
+				"entityId": 1,
 				"level": 10
 			}
 		],
 		"e": [{
 				"id": "e1",
-				"entityId": 2,
+				"entityId": 1,
 				"level": 10
 			}, {
 				"id": "e2",
-				"entityId": 2,
+				"entityId": 1,
 				"level": 10
 			}
 		]
 	},
 	"roles": {
 		"p": {
-				"id": "p0",
-				"hp": 1850,
-				"Rune": [1, 2, 3, 4]
+			"id": "p0",
+			"level": 30,
+			"hp": 1720,
+			"name": "张三",
+			"avatar": 1,
+			"runes": [15, 4, 32, 20]
 		},
 		"e": {
-				"id": "e0",
-				"hp": 1850,
-				"Rune": [1, 2, 3, 4]
+			"id": "e0",
+			"level": 50,
+			"hp": 1850,
+			"name": "李四",
+			"avatar": 1,
+			"runes": [5, 8, 11, 13]
 		}
 	},
 	"actionList": {
-		"e1": {
-			"target": {
-				"p1": {
-					"hurt": 300,
-					"status": "die",
-					"buffer": "fire"
-				},
-				"skill": "fire2"
+		"p": [{
+				"id": "p1",
+				"type": 1,
+				"target": [{
+						"id": "e1",
+						"type": 1,
+						"hurt": -300,
+						"status": 1,
+						"buffer": 1
+					}, {
+						"id": "e0",
+						"type": 1,
+						"hurt": -300,
+						"status": 1,
+						"buffer": 1
+					}
+				],
+				"skill": 1,
+				"turnDone": 1
 			}
-		}
+		],
+		"e": [{
+				"id": "e1",
+				"type": 1,
+				"target": [{
+						"id": "p0",
+						"type": 0,
+						"hurt": -300,
+						"status": 1
+					}
+				],
+				"skill": 1
+			}
+		]
 	},
-	"result": {}
+	"result": {
+		"sente": 1
+	}
 }

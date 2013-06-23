@@ -105,9 +105,11 @@ this.APP = this.APP || {};
 (function() {
   var app = window.APP;
   var config = app.config;
+  var model = app.model;
 
   function checkVersion(callback) {
     var url = config.ASSET_URL + "js/version.js?time=" + Date.now();
+
     app.loadScript(url, function() {
       callback();
     });
@@ -198,7 +200,10 @@ this.APP = this.APP || {};
   app.soundManager = soundManager;
 })();
 
-
+/**
+ * [loading 加载系统]
+ * @return {[type]} [description]
+ */
 (function() {
   var app = window.APP;
   var soundManager = app.soundManager;
@@ -206,7 +211,6 @@ this.APP = this.APP || {};
   var preload;
   var $percent = document.getElementById('id_loadPercent');
   $percent.innerHTML = 0;
-
 
   function init() {
     if (preload) {
@@ -226,10 +230,7 @@ this.APP = this.APP || {};
   }
 
   function handleFileStart(event) {
-    var item = event.item;
-    if (item.type !== 'sound') {
-      item.src = item.src + queryVersion();
-    }
+
   }
 
   function handleFileLoad(event) {
@@ -250,10 +251,8 @@ this.APP = this.APP || {};
 
   function handleFileComplete(event) {
     soundManager.playBgSound();
-    setTimeout(function() {
-      loadStyle();
-      loadScript();
-    }, 1000);
+    loadStyle();
+    loadScript();
   }
 
   function handleFileError(event) {
@@ -262,13 +261,13 @@ this.APP = this.APP || {};
 
   function loadStyle() {
     resources.styles.forEach(function(v) {
-      app.loadStyle(app.config.ASSET_URL + v + queryVersion());
+      app.loadStyle(resourceUrl(v, 'styles'));
     });
   }
 
   function loadScript() {
     resources.scripts.forEach(function(v) {
-      app.loadScript(app.config.ASSET_URL + v + queryVersion(), preload.callback);
+      app.loadScript(resourceUrl(v, 'scripts'), preload.callback);
     });
   }
 
@@ -284,24 +283,49 @@ this.APP = this.APP || {};
     }
   }
 
-  function queryVersion() {
-    return "?v=" + app.version;
+  function resourceUrl(url, kind) {
+
+    var query = queryVersion(kind);
+
+    url = app.config.ASSET_URL + url + query;
+
+    return url;
+  }
+
+  function queryVersion(kind) {
+    return "?v=" + app.version[kind];
   }
 
   init();
 
   preload.loadResource = function() {
+    app.loadScript(resourceUrl("js/resources.js", 'resources'), preload._loadResource);
+  };
+
+  preload._loadResource = function() {
+    var config = [];
     resources = app.resources;
     seajs.config({
       'map': [
-        [/^(.*\.(?:css|js))(.*)$/i, '$1' + queryVersion()]
+        [/^(.*\.(?:css|js))(.*)$/i, '$1' + queryVersion('scripts')]
       ]
     });
 
-    preload.loadManifest(resources.images, false, app.config.ASSET_URL);
+    resources.config.forEach(function(item) {
+      item.src = resourceUrl(item.src, item.id);
+      config.push(item);
+    });
+
     preload.loadManifest(resources.sounds, false, app.config.ASSET_URL);
+    preload.loadManifest(resources.images, false, app.config.ASSET_URL);
+    preload.loadManifest(resources.character, false, app.config.ASSET_URL);
+    preload.loadManifest(resources.skill, false, app.config.ASSET_URL);
+    preload.loadManifest(resources.rune, false, app.config.ASSET_URL);
+    preload.loadManifest(config, false);
 
     preload.load();
   };
+
+
   app.preload = preload;
 })();
