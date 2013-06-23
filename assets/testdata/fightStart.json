@@ -39,42 +39,39 @@
 			"runes": [5, 8, 11, 13]
 		}
 	},
-	"actionList": {
-		"p": [{
-				"id": "p1",
-				"type": 1,
-				"target": [{
-						"id": "e1",
-						"type": 1,
-						"hurt": -300,
-						"status": 1,
-						"buffer": 1
-					}, {
-						"id": "e0",
-						"type": 1,
-						"hurt": -300,
-						"status": 1,
-						"buffer": 1
-					}
-				],
-				"skill": 1,
-				"turnDone": 1
-			}
-		],
-		"e": [{
-				"id": "e1",
-				"type": 1,
-				"target": [{
-						"id": "p0",
-						"type": 0,
-						"hurt": -300,
-						"status": 1
-					}
-				],
-				"skill": 1
-			}
-		]
-	},
+	"actionList": [{
+			"id": "e1",
+			"type": 1,
+			"target": [{
+					"id": "p0",
+					"type": 0,
+					"hurt": -300,
+					"status": 1
+				}
+			],
+			"skill": 1
+		}, {
+			"turnDone": 1
+		}, {
+			"id": "p1",
+			"type": 1,
+			"target": [{
+					"id": "e1",
+					"type": 1,
+					"hurt": -300,
+					"status": 1,
+					"buffer": 1
+				}, {
+					"id": "e0",
+					"type": 1,
+					"hurt": -300,
+					"status": 1,
+					"buffer": 1
+				}
+			],
+			"skill": 1
+		}
+	],
 	"result": {
 		"sente": 1
 	}

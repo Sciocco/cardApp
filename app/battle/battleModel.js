@@ -41,8 +41,7 @@ define(function(require, exports, module) {
 	};
 
 	p.actionsHandle = function(data) {
-		this.actions.player = data.p;
-		this.actions.enemy = data.e;
+		this.actions = data;
 	};
 
 	p._nextTurn = function() {

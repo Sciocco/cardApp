@@ -159,19 +159,23 @@ define(function(require, exports, module) {
 		var canFight = false;
 		var current = battleModel.currentFighter;
 		var fighterTeam = this.currentFighterTeam;
-		battleModel.actionList = battleModel.actions[current];
 
-		var id, length = battleModel.actionList.length;
 
-		//检查当前方 动作列表是否有战斗动作 
-		//检查战斗列表中的战斗者是否是战斗状态
-		if (length > 0) {
-			for (var i = length - 1; i >= 0; i--) {
-				id = battleModel.actionList[i]['id'];
+		var actions = battleModel.actions;
+
+		var i, action, id, length = actions.length;
+
+		for (i = 0; i < length; i++) {
+			action = actions.shift();
+
+			if ("turnDone" in action && action['turnDone']) {
+				break;
+			} else {
+				id = action['id'];
 				if (id in fighterTeam && fighterTeam[id].status === statusViewData.FIGHT) {
 					canFight = true;
-					break;
 				}
+				battleModel.actionList.push(action);
 			}
 		}
 

@@ -217,7 +217,7 @@ this.APP = this.APP || {};
       preload.close();
     }
     preload = new createjs.LoadQueue(false);
-    createjs.Sound.registerPlugin(createjs.HTMLAudioPlugin);
+    createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]);
     preload.installPlugin(createjs.Sound);
 
     preload.addEventListener("filestart", handleFileStart);
