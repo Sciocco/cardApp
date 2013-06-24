@@ -108,19 +108,26 @@ define(function(require, exports, module) {
 	p.fightActionDone = function() {
 		//检查是否战斗结束,如果战斗结束,则销毁不需要的变量.
 
-		//更改下一回合当前者
+		if (this.actions.length > 0) {
+			//更改下一回合当前者
 
-		var k, fighters = battleViewData.fighters;
-		for (k in fighters) {
-			if (k !== this.currentFighter) {
-				this.currentFighter = k;
-				break;
+			var k, fighters = battleViewData.fighters;
+			for (k in fighters) {
+				if (k !== this.currentFighter) {
+					this.currentFighter = k;
+					break;
+				}
 			}
+
+			//开始下一个回合
+			this._nextTurn();
+
+		} else {
+			console.log("战斗结束");
 		}
 
-		this._nextTurn();
 
-		//开始下一个回合
+
 	};
 
 

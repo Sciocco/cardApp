@@ -12,6 +12,7 @@ define(function(require, exports, module) {
 	var Fighter = require('./fighter');
 	var Role = require('./role');
 	var Rune = require('./rune');
+	var Skill = require("./skill");
 
 
 	var viewData = require("./viewData");
@@ -95,6 +96,7 @@ define(function(require, exports, module) {
 
 		this.playerGroup = playerGroup;
 		this.enemyGroup = enemyGroup;
+		this.playerGroup.battleView = this.enemyGroup.battleView = this;
 		this.stage.addChild(this.playerGroup, this.enemyGroup);
 	};
 
@@ -180,9 +182,8 @@ define(function(require, exports, module) {
 		this.currentRunes = this[current + 'Runes'];
 		this.currentRole = this[current + "Role"];
 
-		if (fighterModel !== undefined || !this.isFullWaitFighter(current)) {
+		if (fighterModel !== undefined && !this.isFullWaitFighter(current)) {
 			var fighter = new Fighter(fighterModel);
-
 			fighterTeam[fighterModel['id']] = fighter;
 
 			battleGroup.addFighter(fighter);
@@ -199,18 +200,6 @@ define(function(require, exports, module) {
 			return true;
 		}
 		return false;
-	};
-
-
-	p.fighterDie = function() {
-		//从fighterteam 中移除
-
-
-		//有无技能发动
-
-
-		//添加到死亡组
-
 	};
 
 
@@ -234,18 +223,18 @@ define(function(require, exports, module) {
 				//将所有等待时间为0的战斗者推入战斗组
 				for (k in this.currentFighterTeam) {
 
-					if (this.currentFighterTeam[k].model['waitTime'] === 0) {
-
+					if (this.currentFighterTeam[k].model['currWaitTime'] === 0) {
 						this.currentBattleGroup.toggleFightStatus(this.currentFighterTeam[k]);
 					}
 				}
 			}
 
-			//所有fighter的等待时间减去1
-			var fighters = utils.concatObject(this.playerTeam, this.enemyTeam);
+			for (k in this.playerTeam) {
+				this.playerTeam[k].costWaitTime();
+			}
 
-			for (k in fighters) {
-				fighters[k].costWaitTime();
+			for (k in this.enemyTeam) {
+				this.enemyTeam[k].costWaitTime();
 			}
 
 			this.trigger(this.EVENT_TURN_FIGHT);
@@ -258,55 +247,63 @@ define(function(require, exports, module) {
 	 * [ 动作的目标是 主公还是卡片]
 	 * @return {[type]} [description]
 	 */
-	p.getActionTarget = function(id, type) {
+	p.getActionTarget = function(data, skill) {
 		var target;
+
+
 		//判断是否是主公
-		if (type === 0) {
-			target = this.currentRole;
-		} else if (type === 1) {
-			target = this.currentFighterTeam[id];
+		if (data.type === 0) {
+
+			if (this.currentRole === this.playerRole) {
+				target = this.enemyRole;
+			} else if (this.currentRole === this.enemyRole) {
+				target = this.playerRole;
+			}
+
+		} else if (data.type === 1) {
+
+			if (data.id in this.enemyTeam) {
+				target = this.enemyTeam[data.id];
+			} else if (data.id in this.playerTeam) {
+				target = this.playerTeam[data.id];
+			}
 		}
+
+		data.skill = new Skill(skill);
+		target.hitData = data;
 		return target;
 	};
 
-	p.showActionStart = function(action, skill) {
 
+	p.showActionStart = function(action) {
 		var _this = this;
 		var fighter;
 
-		var targets = [];
-
-		action.target.forEach(function(v) {
-			targets.push(_this.getActionTarget(v));
-		});
+		var actions = action.actions;
 
 		/**
 		 * [ 在最后一个攻击目标结束后,触发下一个动作]
 		 * @return {[type]} [description]
 		 */
 		var callback = function() {
+			//将等待区卡片移动向前
+
+			_this.currentBattleGroup.resetWaitFighter();
+
 			//触发回合完成事件
-			if (action['turnDone'] === true) {
+			_this.trigger(_this.EVENT_ACTION_DONE);
 
-				_this.trigger(_this.EVENT_TURN_FIGHT_DONE);
-
-			} else {
-				_this.trigger(_this.EVENT_ACTION_DONE);
-			}
 		};
 
 		createjs.Tween.get(this.stage).wait(battleViewData.speed['normal']).call(function() {
 
 			if (action['type'] === 0) {
-
 				fighter = _this.currentRunes[action['id']];
-				_this.currentBattleGroup.launchRune(fighter, targets, callback);
+				_this.currentBattleGroup.launchRune(fighter, actions, callback);
 
 			} else if (action['type'] === 1) {
-
 				fighter = _this.currentFighterTeam[action['id']];
-				_this.currentBattleGroup.fighterAttack(fighter, targets, skill, callback);
-
+				_this.currentBattleGroup.fighterAttack(fighter, actions, callback);
 			}
 
 		});

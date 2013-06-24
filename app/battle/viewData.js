@@ -6,14 +6,14 @@ define(function(require, exports, module) {
 			height: 960
 		},
 		speed: {
-			fast: 100,
-			normal: 300,
-			slow: 500
+			fast: 80,
+			normal: 150,
+			slow: 300
 		},
 		font: {
-			large: 100,
+			large: "24px Microsoft YaHei",
 			normal: "18px Microsoft YaHei",
-			small: 500
+			small: "12px Microsoft YaHei"
 		},
 		fighters: {
 			player: 0,
@@ -63,7 +63,8 @@ define(function(require, exports, module) {
 		margin: {
 			f2f: 10,
 			r2r: 10
-		}
+		},
+		showNums: 5
 	};
 
 	exports.playerGroup = {

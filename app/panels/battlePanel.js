@@ -85,6 +85,9 @@ define(function(require, exports, module) {
 		fighter['atk'] = entity['attack'] * level;
 		fighter['hp'] = entity['hp'] * level;
 		fighter['waitTime'] = entity['wait'];
+		fighter['currHp'] = fighter['hp'];
+		fighter['currWaitTime'] = fighter['waitTime'];
+
 
 		var skill, v, k, name;
 		var skills = entity['skill'];
@@ -124,7 +127,7 @@ define(function(require, exports, module) {
 
 
 	function isAutoFight() {
-
+		return true;
 		var current = battleModel.currentFighter;
 		if (battleViewData.fighters[current] === battleViewData.fighters.enemy || battleModel.isAutoFight === true) {
 
@@ -157,27 +160,30 @@ define(function(require, exports, module) {
 	function onTurnFight() {
 
 		var canFight = false;
-		var current = battleModel.currentFighter;
-		var fighterTeam = this.currentFighterTeam;
 
-
+		var fighters = battleView.currentFighterTeam;
 		var actions = battleModel.actions;
-
 		var i, action, id, length = actions.length;
 
-		for (i = 0; i < length; i++) {
-			action = actions.shift();
+		if (battleView.currentBattleGroup.fightGroup.children.length !== 0 && length > 0) {
 
-			if ("turnDone" in action && action['turnDone']) {
-				break;
-			} else {
-				id = action['id'];
-				if (id in fighterTeam && fighterTeam[id].status === statusViewData.FIGHT) {
-					canFight = true;
+			for (i = 0; i < length; i++) {
+				action = actions.shift();
+
+				if ("turnDone" in action && action['turnDone']) {
+					break;
+				} else {
+					id = action['id'];
+
+					if (id in fighters && fighters[id].status === statusViewData.FIGHT) {
+						canFight = true;
+					}
+
+					battleModel.actionList.push(action);
 				}
-				battleModel.actionList.push(action);
 			}
 		}
+
 
 		//如果可以战斗则战斗,不可以则触发此轮战斗结束
 		if (canFight === true) {
@@ -194,11 +200,7 @@ define(function(require, exports, module) {
 	 */
 
 	function onFighterActionStart() {
-		//获取技能类型
-		var action = battleModel.currentAction;
-		var skill = dataApi.fightskill.findById(action['skill']);
-
-		battleView.showActionStart(battleModel.currentAction, skill);
+		battleView.showActionStart(battleModel.currentAction);
 	}
 
 	/**
@@ -207,6 +209,7 @@ define(function(require, exports, module) {
 	 */
 
 	function onTurnFightDone() {
+		battleView.currentBattleGroup.lastMoveIndex = null;
 		battleModel.fightActionDone();
 	}
 
