@@ -1,0 +1,14 @@
+<MKM version="2.0" imageFileUrl="file:///E:/workspace/js/cardApp/assets/images/battleBg.jpg">
+  <Marks>
+    <LengthMark direction="3" color="16711680" length="110" x="89" y="730"/>
+    <LengthMark direction="12" color="16711680" length="115" x="14" y="782"/>
+    <LengthMark direction="12" color="16711680" length="55" x="141" y="805"/>
+    <LengthMark direction="3" color="16711680" length="50" x="233" y="777"/>
+    <RectMark color="16711680" x="9" y="850" offsetX="118" offsetY="110"/>
+    <RectMark color="16711680" x="511" y="119" offsetX="113" offsetY="108"/>
+    <RectMark color="16711680" x="16" y="732" offsetX="113" offsetY="108"/>
+    <RectMark color="16711680" x="137" y="775" offsetX="338" offsetY="58"/>
+    <RectMark color="16711680" x="504" y="731" offsetX="118" offsetY="110"/>
+    <RectMark color="16711680" x="446" y="127" offsetX="52" offsetY="45"/>
+  </Marks>
+</MKM>
