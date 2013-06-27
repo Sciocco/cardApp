@@ -11,6 +11,7 @@ define(function(require, exports, module) {
 	var viewData = require('../battle/viewData');
 	var battleViewData = viewData.battleGroup;
 	var statusViewData = viewData.fighterStatus;
+	var rectViewData = viewData.sourceRect;
 
 	var Controller = Spine.Controller.sub({
 		"el": "#battlePanel",
@@ -26,11 +27,11 @@ define(function(require, exports, module) {
 			battleModel.bind(battleModel.EVENT_TURN_FIGHT_DONE, onTurnFightDone);
 
 			//视图事件
-			battleView.bind(battleView.EVENT_WAIT_FIGHTER, onWaitFighter);
 			battleView.bind(battleView.EVENT_TURN_READY_DONE, onTurnReadyDone);
 			battleView.bind(battleView.EVENT_TURN_FIGHT, onTurnFight);
-			battleView.bind(battleView.EVENT_ACTION_DONE, onActionDone);
-			battleView.bind(battleView.EVENT_TURN_FIGHT_DONE, onTurnFightDone);
+			battleView.bind(battleView.EVENT_FIGHTER_ACTION_DONE, onFighterActionDone);
+			battleView.bind(battleView.EVENT_AUTO_FIGHT, onAutoFight);
+			battleView.bind(battleView.EVENT_HAND_FIGHT, onHandFight);
 
 			//初始化canvas
 			canvas = utils.createSketchpad(pageSize.WIDTH * mobile.canvasRadio.width, pageSize.HEIGHT * mobile.canvasRadio.height, document.getElementById("battleContainer"));
@@ -48,26 +49,23 @@ define(function(require, exports, module) {
 		}
 	});
 
-
-
 	function battleStart() {
 		battleView.initRole(battleModel.roles);
 		battleView.initRune(battleModel.runes);
 	}
 
 	function onTurnReady() {
-		battleView.showTurn(battleModel.turnIndex);
-	}
 
-
-	function onWaitFighter() {
 		var current = battleModel.currentFighter;
+
+		battleView.showTurn(battleModel.turnIndex, current);
 
 		var fighter = battleModel.waits[current].shift();
 
 		fighter = initFighter(fighter, current);
 
 		battleView.showWaitFighter(fighter, current);
+
 	}
 
 	function initFighter(fighter, current) {
@@ -82,12 +80,16 @@ define(function(require, exports, module) {
 		var level = fighter['level'];
 
 		fighter['currentFighter'] = battleViewData.fighters[current];
+		fighter['cost'] = entity['cost'];
+		fighter['star'] = entity['star'];
+		fighter['name'] = entity['name'];
 		fighter['atk'] = entity['attack'] * level;
 		fighter['hp'] = entity['hp'] * level;
 		fighter['waitTime'] = entity['wait'];
+		fighter["country"] = entity["country"];
 		fighter['currHp'] = fighter['hp'];
+		fighter['currAtk'] = entity['attack'];
 		fighter['currWaitTime'] = fighter['waitTime'];
-
 
 		var skill, v, k, name;
 		var skills = entity['skill'];
@@ -107,28 +109,32 @@ define(function(require, exports, module) {
 			}
 			fighter['fightskill'] = fighter['fightskill'] + name + "\n" + skill.desc + "\n\n";
 		}
+
 		return fighter;
 	}
-
 	/**
-	 * [onAutoFight 是否自动战斗]
+	 * [ 是否自动战斗]
 	 * @return {[type]} [description]
 	 */
 
 	function onTurnReadyDone() {
 		var isAuto = isAutoFight();
-
 		if (!isAuto) {
+			battleView.handButton.sourceRect = rectViewData.turnNormalRect;
+			this.gameStatus = "pause";
 			return;
 		}
+
+
 
 		battleView.turnReadyDone(isAuto);
 	}
 
 
 	function isAutoFight() {
-		return true;
+
 		var current = battleModel.currentFighter;
+		//如果是敌人 和自动战斗 则返回true
 		if (battleViewData.fighters[current] === battleViewData.fighters.enemy || battleModel.isAutoFight === true) {
 
 			return true;
@@ -136,20 +142,34 @@ define(function(require, exports, module) {
 		} else if (battleViewData.fighters[current] === battleViewData.fighters.player) { //当敌方先手己方没有等待时间为0的牌时  && battleModel.sente === battleViewData.fighters.enemy
 
 			var result = true,
-				fighters = battleView.currentFighterTeam;
+				fighters = battleView.currentFighterTeam,
+				waitNums = 0;
 
 			for (var id in fighters) {
-				if (fighters[id].model['waitTime'] === 0) {
-					result = false;
-					break;
+
+				if (fighters[id].status === statusViewData.WAIT) {
+
+					if (fighters[id].model['currWaitTime'] === 0) {
+
+						fighters[id].toggleStatus(statusViewData.READY_BEFORE);
+
+						result = false;
+					}
+					waitNums++;
 				}
 			}
-			return result;
+
+			if (result === false) {
+				return false;
+			} else if (waitNums === 0) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 
 		return false;
 	}
-
 
 
 	/**
@@ -161,29 +181,37 @@ define(function(require, exports, module) {
 
 		var canFight = false;
 
-		var fighters = battleView.currentFighterTeam;
-		var actions = battleModel.actions;
-		var i, action, id, length = actions.length;
+		var actions = battleModel.getCurrentActions();
 
-		if (battleView.currentBattleGroup.fightGroup.children.length !== 0 && length > 0) {
-
-			for (i = 0; i < length; i++) {
-				action = actions.shift();
-
-				if ("turnDone" in action && action['turnDone']) {
-					break;
-				} else {
-					id = action['id'];
-
-					if (id in fighters && fighters[id].status === statusViewData.FIGHT) {
-						canFight = true;
-					}
-
-					battleModel.actionList.push(action);
-				}
-			}
+		if (actions) {
+			canFight = true;
+			battleModel.actionList = actions;
 		}
 
+		console.log(battleModel.actionList);
+
+		// if (battleView.currentBattleGroup.fightGroup.children.length !== 0 && length > 0) {
+
+		// 	var currentActions =  actions.shift();
+
+		// 	for (i = 0; i < length; i++) {
+		// 		action = actions.shift();
+		// 		console.log(actions);
+		// 		if ("turnDone" in action && action['turnDone']) {
+		// 			break;
+		// 		} else {
+		// 			id = action['id'];
+		// 			console.log(fighters);
+		// 			console.log(id);
+		// 			console.log(fighters[id].status);
+		// 			if (id in fighters && fighters[id].status === statusViewData.FIGHT) {
+		// 				canFight = true;
+		// 			}
+
+		// 			battleModel.actionList.push(action);
+		// 		}
+		// 	}
+		// }
 
 		//如果可以战斗则战斗,不可以则触发此轮战斗结束
 		if (canFight === true) {
@@ -200,6 +228,7 @@ define(function(require, exports, module) {
 	 */
 
 	function onFighterActionStart() {
+		console.log(battleModel.turnIndex, battleModel.currentAction);
 		battleView.showActionStart(battleModel.currentAction);
 	}
 
@@ -209,7 +238,7 @@ define(function(require, exports, module) {
 	 */
 
 	function onTurnFightDone() {
-		battleView.currentBattleGroup.lastMoveIndex = null;
+		console.log(battleModel.turnIndex, "onTurnFightDone");
 		battleModel.fightActionDone();
 	}
 
@@ -218,9 +247,58 @@ define(function(require, exports, module) {
 	 * @return {[type]} [description]
 	 */
 
-	function onActionDone() {
+	function onFighterActionDone() {
+		console.log(battleModel.turnIndex, "onFighterActionDone", battleModel.actionIndexInTurn);
+
 		battleModel.actionIndexInTurn++;
 		battleModel.fighterActionStart();
+	}
+
+	function onAutoFight() {
+
+		if (battleView.autoButton.sourceRect === rectViewData.autoCancelRect) {
+			return;
+		}
+
+		var _this = this;
+		var callback = function() {
+			battleView.continueGame();
+
+			if (_this.gameStatus === "pause") {
+				_this.gameStatus = "container";
+				battleModel.setCurrentActions();
+				battleView.turnReadyDone(true);
+			}
+			battleView.handButton.sourceRect = rectViewData.turnCanelRect;
+			battleView.autoButton.sourceRect = rectViewData.autoCancelRect;
+		};
+
+		battleView.pauseGame();
+
+		battleModel.roundFightReq(true, callback);
+	}
+
+	function onHandFight() {
+
+		if (battleView.autoButton.sourceRect === rectViewData.autoCancelRect || battleView.handButton.sourceRect === rectViewData.turnCanelRect) {
+			return;
+		}
+
+		var _this = this;
+		var callback = function() {
+
+			//如果手牌没有,而且等待区的牌没有则设置为自动模式
+			if (_this.gameStatus === "pause") {
+				_this.gameStatus = "container";
+				battleModel.setCurrentActions();
+				battleView.turnReadyDone(false);
+				battleView.handButton.sourceRect = rectViewData.turnCanelRect;
+			}
+		};
+		console.log(battleView.currentBattleGroup);
+		battleView.currentBattleGroup.resetFightGroup();
+
+		battleModel.roundFightReq(false, callback);
 	}
 
 	var controller = new Controller();

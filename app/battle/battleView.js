@@ -4,10 +4,8 @@ define(function(require, exports, module) {
 	var pageSize = require('../config/consts').pageSize;
 	var mobile = require('../utils/mobile');
 
-
 	var playerGroup = require('./playerGroup');
 	var enemyGroup = require('./enemyGroup');
-
 
 	var Fighter = require('./fighter');
 	var Role = require('./role');
@@ -16,11 +14,13 @@ define(function(require, exports, module) {
 
 
 	var viewData = require("./viewData");
+	var turnPointer = require("./turnPointer");
 
 	var battleViewData = viewData.battleGroup;
 	var playerViewData = viewData.playerGroup;
 	var enemyViewData = viewData.enemyGroup;
 	var rectViewData = viewData.sourceRect;
+	var statusViewData = viewData.fighterStatus;
 
 	var utils = require('../utils/utils');
 	var preload = window.APP.preload;
@@ -41,8 +41,9 @@ define(function(require, exports, module) {
 	p.EVENT_WAIT_FIGHTER = 'waitFighter';
 	p.EVENT_TURN_READY_DONE = "turnReadyDone";
 	p.EVENT_TURN_FIGHT = "turnFight";
-	p.EVENT_ACTION_DONE = "actionDone";
-	p.EVENT_TURN_FIGHT_DONE = "turnFightDone";
+	p.EVENT_FIGHTER_ACTION_DONE = "fighterActionDone";
+	p.EVENT_AUTO_FIGHT = "autoFight";
+	p.EVENT_HAND_FIGHT = "handFight";
 
 
 	p.initialize = function(pCanvas) {
@@ -68,11 +69,8 @@ define(function(require, exports, module) {
 		this.initStage();
 	};
 
-	p.handleTick = function(event) {
-		if (event.paused) {
-			return;
-		}
-		this.stage.update(event);
+	p.handleTick = function() {
+		this.stage.update();
 	};
 
 	p.pauseGame = function() {
@@ -81,7 +79,7 @@ define(function(require, exports, module) {
 	};
 
 	p.continueGame = function() {
-		createjs.Ticker.addEventListener("tick", this.proxy(this.handleTick));
+		createjs.Ticker.setPaused(false);
 	};
 
 	p.endGame = function() {
@@ -91,13 +89,14 @@ define(function(require, exports, module) {
 
 	p.initStage = function() {
 		this.drawBackground();
-		this.drawTurn();
 		this.drawButton();
 
 		this.playerGroup = playerGroup;
 		this.enemyGroup = enemyGroup;
 		this.playerGroup.battleView = this.enemyGroup.battleView = this;
 		this.stage.addChild(this.playerGroup, this.enemyGroup);
+
+		this.stage.addChild(turnPointer);
 	};
 
 	p.drawBackground = function() {
@@ -106,44 +105,33 @@ define(function(require, exports, module) {
 	};
 
 	p.drawButton = function() {
-		var autoButton = new createjs.Bitmap(preload.getResult("fightButton")).set({
+		this.autoButton = new createjs.Bitmap(preload.getResult("fightButton")).set({
 			x: battleViewData.autoButton.x,
 			y: battleViewData.autoButton.y,
 			cursor: "pointer"
 		});
+		this.autoButton.sourceRect = rectViewData.autoNormalRect;
+		this.autoButton.addEventListener('click', createjs.proxy(this.autoFight, this));
 
-		autoButton.sourceRect = rectViewData.normalAutoRect;
-		autoButton.addEventListener('click', autoFight);
-
-		var handButton = new createjs.Bitmap(preload.getResult("fightButton")).set({
+		this.handButton = new createjs.Bitmap(preload.getResult("fightButton")).set({
 			x: battleViewData.handButton.x,
 			y: battleViewData.handButton.y,
 			cursor: "pointer"
 		});
-		handButton.sourceRect = rectViewData.normalHandRect;
-		handButton.addEventListener('click', handFight);
+		this.handButton.sourceRect = rectViewData.turnNormalRect;
+		this.handButton.addEventListener('click', createjs.proxy(this.handFight, this));
 
-		this.stage.addChild(autoButton, handButton);
+
+		this.stage.addChild(this.autoButton, this.handButton);
 	};
 
-	p.drawTurn = function() {
-		this.turnIndex = new createjs.Text('', "bold 20px Arial", "#000").set({
-			x: battleViewData.turnIndex.x,
-			y: battleViewData.turnIndex.y
-		});
-
-		this.stage.addChild(this.turnIndex);
+	p.autoFight = function() {
+		this.trigger(this.EVENT_AUTO_FIGHT);
 	};
 
-
-	function autoFight() {
-		alert("自动战斗");
-	}
-
-	function handFight() {
-		//发送数据
-		alert("开始战斗");
-	}
+	p.handFight = function() {
+		this.trigger(this.EVENT_HAND_FIGHT);
+	};
 
 	p.initRole = function(modelData) {
 		this.playerRole = new Role(modelData.player);
@@ -170,60 +158,63 @@ define(function(require, exports, module) {
 		});
 	};
 
-	p.showTurn = function(pIndex) {
-		this.turnIndex.text = pIndex;
-		this.trigger(this.EVENT_WAIT_FIGHTER);
+	p.showTurn = function(pIndex, current) {
+		turnPointer.setTurn(pIndex, current);
 	};
 
 	p.showWaitFighter = function(fighterModel, current) {
-
-		var fighterTeam = this.currentFighterTeam = this[current + 'Team'];
-		var battleGroup = this.currentBattleGroup = this[current + 'Group'];
+		var _this = this;
+		this.currentFighterTeam = this[current + 'Team'];
+		this.currentBattleGroup = this[current + 'Group'];
 		this.currentRunes = this[current + 'Runes'];
 		this.currentRole = this[current + "Role"];
 
 		if (fighterModel !== undefined && !this.isFullWaitFighter(current)) {
-			var fighter = new Fighter(fighterModel);
-			fighterTeam[fighterModel['id']] = fighter;
 
-			battleGroup.addFighter(fighter);
+			var callback = function() {
+				var fighter = new Fighter(fighterModel);
+				_this.currentFighterTeam[fighterModel['id']] = fighter;
+				_this.currentBattleGroup.addFighter(fighter);
+				_this.trigger(_this.EVENT_TURN_READY_DONE);
+			};
+			preload.loadCard(fighterModel['entityId'], callback);
+		} else {
+			this.trigger(this.EVENT_TURN_READY_DONE);
 		}
 
-		this.trigger(this.EVENT_TURN_READY_DONE);
 	};
 
 
 	p.isFullWaitFighter = function(current) {
 		var battleGroup = this[current + 'Group'];
 
-		if (battleGroup.waitGroup.getNumChildren() > 4) {
+		if (battleGroup.waitGroup.getNumChildren() >= battleViewData.showNums) {
 			return true;
 		}
 		return false;
 	};
 
 
-	p.addAttackEffect = function() {
-
-	};
-
-
 	p.turnReadyDone = function(isAutoFight) {
 
-		createjs.Tween.get(this.stage).wait(battleViewData.speed['normal']).call(createjs.proxy(function() {
-
+		setTimeout(createjs.proxy(function() {
 			var k;
 
 			if (isAutoFight === false) {
-				//移除所有己方等待特效
-
 				//移除所有己方等待组的卡牌和准备组的卡牌 
+				var readyGroup = this.currentBattleGroup.readyGroup;
+				var waitGroup = this.currentBattleGroup.waitGroup;
+
+				readyGroup.forEach(function(v) {
+					waitGroup.removeChild(v);
+				});
+
+				readyGroup = [];
 
 			} else if (isAutoFight === true) {
 				//将所有等待时间为0的战斗者推入战斗组
 				for (k in this.currentFighterTeam) {
-
-					if (this.currentFighterTeam[k].model['currWaitTime'] === 0) {
+					if (this.currentFighterTeam[k].model['currWaitTime'] === 0 && (this.currentFighterTeam[k].status === statusViewData.WAIT || this.currentFighterTeam[k].status === statusViewData.READY_BEFORE)) {
 						this.currentBattleGroup.toggleFightStatus(this.currentFighterTeam[k]);
 					}
 				}
@@ -237,9 +228,12 @@ define(function(require, exports, module) {
 				this.enemyTeam[k].costWaitTime();
 			}
 
+			this.currentBattleGroup.lastMoveIndex = null;
+
 			this.trigger(this.EVENT_TURN_FIGHT);
 
-		}, this));
+		}, this), battleViewData.speed['normal']);
+
 	};
 
 
@@ -249,7 +243,6 @@ define(function(require, exports, module) {
 	 */
 	p.getActionTarget = function(data, skill) {
 		var target;
-
 
 		//判断是否是主公
 		if (data.type === 0) {
@@ -287,30 +280,26 @@ define(function(require, exports, module) {
 		 */
 		var callback = function() {
 			//将等待区卡片移动向前
-
 			_this.currentBattleGroup.resetWaitFighter();
-
 			//触发回合完成事件
-			_this.trigger(_this.EVENT_ACTION_DONE);
-
+			_this.trigger(_this.EVENT_FIGHTER_ACTION_DONE);
 		};
 
-		createjs.Tween.get(this.stage).wait(battleViewData.speed['normal']).call(function() {
+		setTimeout(function() {
 
 			if (action['type'] === 0) {
 				fighter = _this.currentRunes[action['id']];
 				_this.currentBattleGroup.launchRune(fighter, actions, callback);
 
 			} else if (action['type'] === 1) {
+
 				fighter = _this.currentFighterTeam[action['id']];
 				_this.currentBattleGroup.fighterAttack(fighter, actions, callback);
 			}
 
-		});
+		}, battleViewData.speed['normal']);
 
 	};
-
-
 
 	var battleView = new Module();
 	module.exports = battleView;

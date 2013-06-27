@@ -1,5 +1,8 @@
 define(function(require, exports, module) {
 
+	var app = window.APP;
+
+
 	function createSketchpad(width, height, parent) {
 		if (arguments.length == 1) {
 			parent = width;
@@ -32,9 +35,9 @@ define(function(require, exports, module) {
 		return cv;
 	}
 
-	function loadImage(src, type, callback) {
+	function loadImage(src, callback) {
 		var img = new Image();
-		img.src = src;
+		img.src = app.config.ASSET_URL + src;
 
 		//FIXME: type?
 
@@ -44,7 +47,7 @@ define(function(require, exports, module) {
 			img.loaded = true;
 
 			if (callback)
-				callback();
+				callback(img);
 		};
 		return img;
 	}
@@ -57,54 +60,6 @@ define(function(require, exports, module) {
 	exports.loadImage = loadImage;
 	exports.createAudio = createAudio;
 	exports.createHiddenSketchpad = createHiddenSketchpad;
-
-
-	exports.slice = [].slice;
-
-	exports.indexOf = [].indexOf || function(item) {
-		for (var i = 0, l = this.length; i < l; i++) {
-			if (i in this && this[i] === item) return i;
-		}
-		return -1;
-	};
-
-	var __hasProp = {}.hasOwnProperty;
-	exports.hasProp = __hasProp;
-
-	exports.extends = function(child, parent) {
-		for (var key in parent) {
-			if (__hasProp.call(parent, key)) child[key] = parent[key];
-		}
-
-		function ctor() {
-			this.constructor = child;
-		}
-		ctor.prototype = parent.prototype;
-		child.prototype = new ctor();
-		child.__super__ = parent.prototype;
-		return child;
-	};
-
-	exports.bind = function(fn, me) {
-		return function() {
-			return fn.apply(me, arguments);
-		};
-	};
-
-	exports.concatObject = function(o1, o2) {
-		var o = {}, key;
-
-		for (key in o1) {
-			if (__hasProp.call(o1, key)) o[key] = o1[key];
-		}
-
-		for (key in o2) {
-			if (__hasProp.call(o2, key)) o[key] = o2[key];
-		}
-
-		return o;
-	};
-
 
 
 });

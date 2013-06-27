@@ -1,4 +1,4 @@
-define("app/utils/clientManager", [ "../mvc/route", "../mvc/stack", "../mvc/manager", "../ui/transitionManager", "../ui/noTransition", "../ui/jq.css3animate", "../ui/slideTransition", "../ui/slideDownTransition", "../pages/loginPage", "./panelManager", "../panels/dungeonPanel", "../panels/fightPanel", "../panels/mainPanel" ], function(require, exports, module) {
+define("app/utils/clientManager", [ "../mvc/route", "../mvc/stack", "../mvc/manager", "../ui/transitionManager", "../ui/noTransition", "../ui/jq.css3animate", "../ui/slideTransition", "../ui/slideDownTransition", "../pages/loginPage", "../panels/loginPanel", "../panels/serverPanel", "../pages/gamePage", "../panels/dungeonPanel", "../panels/fightPanel", "../panels/mainPanel", "../panels/battlePanel", "../config/consts", "./mobile", "../battle/battleModel", "../battle/viewData", "../battle/battleView", "../mvc/createjs.extend", "../battle/playerGroup", "../battle/battleGroup", "../battle/effect", "../battle/enemyGroup", "../battle/fighter", "./utils", "../battle/role", "../battle/rune", "../battle/skill", "./dataApi", "../battle/turnPointer", "./utils.js" ], function(require, exports, module) {
     require("../mvc/route");
     var SpineStack = require("../mvc/stack");
     var loginPage = require("../pages/loginPage");
@@ -9,8 +9,7 @@ define("app/utils/clientManager", [ "../mvc/route", "../mvc/stack", "../mvc/mana
         },
         routes: {
             "/page/login": "login",
-            "/page/game": "game",
-            "/page/fight": "fight"
+            "/page/game": "game"
         },
         "default": "/page/login",
         init: function() {
@@ -21,10 +20,12 @@ define("app/utils/clientManager", [ "../mvc/route", "../mvc/stack", "../mvc/mana
                 shim: true,
                 replace: false
             });
+            this["default"] = "/page/game";
+            this.bind("defaultRoute", this.proxy(this.enterGame));
         },
         enterGame: function() {
-            var panelManager = require("./panelManager");
-            this.addChild("game", panelManager);
+            var gamePage = require("../pages/gamePage");
+            this.addChild("game", gamePage);
             this.navigate("/page/game", true);
         }
     });

@@ -7,16 +7,17 @@ define(function(require, exports, module) {
 	var Module = Spine.Module.sub(Spine.Events);
 	var p = Module.prototype;
 
+	p.isAutoFight = false;
 	p.currentFighter = null; //当前回合方
 	p.turnIndex = 0; //当前回合数
 	p.actionIndexInTurn = null;
 	p.actionList = []; //动作列表
 
-
 	p.roles = {};
 	p.runes = {};
 	p.waits = {};
-	p.actions = {};
+	p.actions = [];
+	p.currentActions = {};
 	p.error = null; //错误
 
 	//EVENT
@@ -36,12 +37,25 @@ define(function(require, exports, module) {
 	};
 
 	p.waitsHandle = function(data) {
-		this.waits.player = data.p;
-		this.waits.enemy = data.e;
+
+		if (this.waits.player === undefined) {
+			this.waits.player = data.p;
+		} else {
+			this.waits.player = this.waits.player.concat(data.p);
+		}
+
+		if (this.waits.enemy === undefined) {
+			this.waits.enemy = data.e;
+		} else {
+			this.waits.enemy = this.waits.enemy.concat(data.e);
+		}
+
 	};
 
 	p.actionsHandle = function(data) {
-		this.actions = data;
+		this.actions = this.actions.concat(data);
+		var a = {};
+		console.log('acitons', $.extend(a, this.actions));
 	};
 
 	p._nextTurn = function() {
@@ -58,42 +72,40 @@ define(function(require, exports, module) {
 			return;
 		}
 
+		var k, fighters = battleViewData.fighters;
+		for (k in fighters) {
+			if (fighters[k] === 'player') {
+				this.currentFighter = k;
+				this.sente = data.sente;
+			}
+		}
+
 		this.roleHandle(data.roles);
 		this.waitsHandle(data.waits);
-		this.actionsHandle(data.actionList);
+		this.actionsHandle(data.actions);
 		//每局开始前初始化
 		this.turnIndex = 0;
+		this.setCurrentActions();
 		this._nextTurn();
 	};
 
 	p.roundFight = function(data) {
-		this.resultHandle(data.result);
+		var result = this.resultHandle(data.result);
 		if (result === false) {
 			return;
 		}
 
 		this.waitsHandle(data.waits);
-		this.actionsHandle(data.actionList);
-		this._nextTurn();
+		this.actionsHandle(data.actions);
 	};
 
 	p.resultHandle = function(data) {
-		if (typeof data.noPhysical !== 'undefined' && data.noPhysical === true) {
+		if (typeof data.noPhysical !== '' && data.noPhysical === true) {
 			this.error = "体力不足";
 		}
 
-		if (typeof data.fightEnd !== 'undefined') {
+		if (typeof data.fightEnd !== '') {
 
-		}
-
-		if (typeof data.sente !== "undefined" && data.sente) {
-			var k, fighters = battleViewData.fighters;
-			for (k in fighters) {
-				if (fighters[k] === data.sente) {
-					this.currentFighter = k;
-					this.sente = data.sente;
-				}
-			}
 		}
 
 		if (this.error !== null) {
@@ -106,17 +118,27 @@ define(function(require, exports, module) {
 
 	//一个回合的战斗完成
 	p.fightActionDone = function() {
+
+		//更改下一回合当前者
+
+		console.log(this.currentFighter);
+
+		var k, fighters = battleViewData.fighters;
+		for (k in fighters) {
+			if (k !== this.currentFighter) {
+				this.currentFighter = k;
+				break;
+			}
+		}
+
+		console.log(this.currentFighter);
+
+		console.log("-----------------");
 		//检查是否战斗结束,如果战斗结束,则销毁不需要的变量.
+		if (this.actions.length > 0 || this.waits[this.currentFighter].length > 0 || !this.isAutoFight) {
 
-		if (this.actions.length > 0) {
-			//更改下一回合当前者
-
-			var k, fighters = battleViewData.fighters;
-			for (k in fighters) {
-				if (k !== this.currentFighter) {
-					this.currentFighter = k;
-					break;
-				}
+			if (this.currentFighter === battleViewData.fighters.player) {
+				this.setCurrentActions();
 			}
 
 			//开始下一个回合
@@ -126,8 +148,29 @@ define(function(require, exports, module) {
 			console.log("战斗结束");
 		}
 
+	};
 
+	p.getCurrentActions = function() {
+		return this.currentActions[this.currentFighter];
+	};
 
+	p.setCurrentActions = function() {
+		var action;
+
+		if (this.actions.length === 0) {
+			this.currentActions = {};
+			return;
+		}
+
+		actions = this.actions.shift();
+
+		for (var i in actions) {
+			if (i === 'p') {
+				this.currentActions['player'] = actions[i];
+			} else if (i === 'e') {
+				this.currentActions['enemy'] = actions[i];
+			}
+		}
 	};
 
 
@@ -160,22 +203,42 @@ define(function(require, exports, module) {
 	};
 
 
+
+	var round = 1;
 	/**
 	 * [回合战斗请求]
 	 * @return {[type]} [description]
 	 */
-	p.roundFightReq = function(callback) {
+	p.roundFightReq = function(isAuto, callback) {
 		var _this = this;
+
+		var file = "fightRound" + round + ".json";
+
+		if (isAuto) {
+			file = "fightRoundAutozt.json";
+		}
+
 		$.ajax({
 			type: "GET",
-			url: 'http://192.168.1.88:88/cardApp/assets/testdata/fightRound.json',
+			url: 'http://192.168.1.88:88/cardApp/assets/testdata/' + file,
+			headers: {
+				"If-Modified-Since": "0"
+			},
 			beforeSend: app.ajaxLoading,
 			success: function(data) {
 				app.ajaxLoadingEnd();
+
+				if (isAuto) {
+					_this.isAutoFight = true;
+				} else {
+					_this.isAutoFight = false;
+				}
 				_this.roundFight(data);
 				if (_this.error === null) {
 					callback();
 				}
+
+				round++;
 			},
 			error: function() {
 				app.ajaxLoadingEnd();
@@ -200,7 +263,6 @@ define(function(require, exports, module) {
 
 		//当前动作
 		this.currentAction = this.actionList[this.actionIndexInTurn];
-
 		this.trigger(this.EVENT_FIGHTER_ACTION_START);
 	};
 

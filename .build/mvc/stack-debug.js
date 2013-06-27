@@ -10,7 +10,7 @@ define("app/mvc/stack-debug", [ "./manager-debug", "../ui/transitionManager-debu
         child.prototype = new ctor();
         child.__super__ = parent.prototype;
         return child;
-    }, Manager = require("./manager-debug"), transitionManager = require("../ui/transitionManager-debug");
+    }, __slice = [].slice, Manager = require("./manager-debug"), transitionManager = require("../ui/transitionManager-debug");
     var Module = function(_super) {
         __extends(Stack, _super);
         Stack.prototype.controllers = {};
@@ -35,23 +35,30 @@ define("app/mvc/stack-debug", [ "./manager-debug", "../ui/transitionManager-debu
             }
         }
         Stack.prototype.addRoute = function(key, value) {
-            var _ref2, callback;
+            var _ref2, callback, oldController;
+            var _this = this;
             if (typeof value === "function") {
                 callback = value;
             } else {
-                callback = this.proxy(function() {
-                    _ref2 = this.getChildAt(value);
-                    if (this.oldController === _ref2) {
+                callback = function(params) {
+                    oldController = _this.oldController;
+                    _ref2 = _this.getChildAt(value);
+                    if (_this.oldController === _ref2) {
                         return;
                     }
-                    this.render(this.oldController, _ref2);
-                    this.oldController = _ref2;
-                });
+                    _ref2.params = params;
+                    //在render设置oldController,避免回调失败再设置oldController
+                    _this.oldController = _ref2;
+                    _this.render(oldController, _ref2);
+                };
             }
             return this.route(key, callback);
         };
         Stack.prototype.render = function(oldController, currController) {
             transitionManager.runTransition(oldController, currController);
+        };
+        Stack.prototype.setOldController = function(controller) {
+            this.oldController = controller;
         };
         return Stack;
     }(Manager);

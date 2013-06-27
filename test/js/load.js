@@ -36,6 +36,15 @@
          }, {
              id: "skill-sprite-20",
              src: "skill/20.json"
+         }, {
+             id: "point",
+             src: "point.png"
+         }, {
+             id: "fighterReady",
+             src: "fighterReady.png"
+         }, {
+             id: "fighterReady-sprite",
+             src: "fighterReady.json"
          }
      ];
      preload = new createjs.LoadQueue(true, "assets/");
@@ -89,7 +98,55 @@
      stage.mouseMoveOutside = true;
 
 
+
      createjs.Ticker.addEventListener("tick", tick);
+
+
+
+     point = new createjs.Bitmap(preload.getResult("point")).set({
+         x: 250,
+         y: 100
+     });
+
+
+     stage.addChild(point);
+
+     point.regX = 69;
+     point.regY = 17;
+
+
+     createjs.Tween.get(point).to({
+         rotation: -45
+     }, 500).to({
+         rotation: 45
+
+     }, 500);
+
+
+
+     var FighterReadyEffect = function() {
+         this.initialize();
+     };
+
+     var p = FighterReadyEffect.prototype = new createjs.BitmapAnimation();
+     p.BitmapAnimation_initialize = p.initialize;
+
+     p.initialize = function() {
+         var data = preload.getResult("fighterReady-sprite");
+         data.images = [preload.getResult("fighterReady")];
+         var spriteSheet = new createjs.SpriteSheet(data);
+         this.BitmapAnimation_initialize(spriteSheet);
+     };
+
+     var effect = new FighterReadyEffect();
+
+     effect.x = 300;
+     effect.y = 150;
+
+     effect.gotoAndPlay("all");
+     stage.addChild(effect);
+
+
 
      var img = new createjs.Bitmap(preload.getResult("card-yzss"));
 
@@ -137,7 +194,6 @@
          var animation2 = animation.clone();
 
          animation2.addEventListener('animationend', function(a) {
-             console.log(a);
              if (i == 2) {
                  fightContainer2.removeChild(animation2);
              }
@@ -189,19 +245,17 @@
      var hp = new createjs.Container();
 
      hp.addChild(shape).set({
-        x:158,
-        y:225
+         x: 158,
+         y: 225
      });
 
      stage.addChild(hp);
  }
 
 
-function addText(){
-
-
-    stage.addChild(text);
-}
+ function addText() {
+     stage.addChild(text);
+ }
 
 
  function tick(event) {

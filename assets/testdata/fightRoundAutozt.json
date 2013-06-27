@@ -1,0 +1,378 @@
+{
+	"waits": {
+		"p": [{
+				"id": "p4",
+				"entityId": 2,
+				"level": 10
+			},{
+				"id": "p5",
+				"entityId": 1,
+				"level": 10
+			}
+		],
+		"e": [{
+				"id": "e4",
+				"entityId": 4,
+				"level": 10
+			},{
+				"id": "e5",
+				"entityId": 1,
+				"level": 10
+			}
+		]
+	},
+	"roles": {
+
+	},
+	"actions": [{
+			"p": [{
+					"id": "p1",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "e1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 2
+						}
+					]
+				}, {
+					"id": "p2",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": 100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 4
+						}, {
+							"targets": [{
+									"id": "e0",
+									"type": 0,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}
+			],
+			"e": [{
+					"id": "e1",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}, {
+					"id": "e2",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}, {
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}, {
+									"id": "p2",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 1
+						}
+					]
+				}
+			]
+		},{
+			"p": [{
+					"id": "p1",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "e1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 2
+						}
+					]
+				}, {
+					"id": "p2",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": 100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 4
+						}, {
+							"targets": [{
+									"id": "e2",
+									"type": 1,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}, {
+					"id": "p3",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "e0",
+									"type": 0,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 2
+						}
+					]
+				}
+			],
+			"e": [{
+					"id": "e1",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}, {
+					"id": "e2",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}, {
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}, {
+									"id": "p2",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 1
+						}
+					]
+				}, {
+					"id": "e3",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p3",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}
+			]
+		},{
+			"p": [{
+					"id": "p1",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "e1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 2
+						}
+					]
+				}, {
+					"id": "p2",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": 100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 4
+						}, {
+							"targets": [{
+									"id": "e2",
+									"type": 1,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}, {
+					"id": "p3",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "e3",
+									"type": 1,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 2
+						}
+					]
+				}, {
+					"id": "p4",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "e0",
+									"type": 0,
+									"hurt": -100,
+									"status": 1,
+									"buffer": 1
+								}
+							],
+							"skill": 2
+						}
+					]
+				}
+			],
+			"e": [{
+					"id": "e1",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}, {
+					"id": "e2",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}, {
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}, {
+									"id": "p2",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 1
+						}
+					]
+				}, {
+					"id": "e3",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p3",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}, {
+					"id": "e4",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p4",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}
+			]
+		}
+	],
+	"result": {}
+}

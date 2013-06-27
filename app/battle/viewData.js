@@ -11,17 +11,16 @@ define(function(require, exports, module) {
 			slow: 300
 		},
 		font: {
-			large: "24px Microsoft YaHei",
-			normal: "18px Microsoft YaHei",
+			large: "20px Microsoft YaHei",
+			normal: "14px Microsoft YaHei",
 			small: "12px Microsoft YaHei"
 		},
 		fighters: {
-			player: 0,
-			enemy: 1
+			player: 'player',
+			enemy: 'enemy'
 		},
-
 		fighter: {
-			width: 116
+			width: 118
 		},
 		avatar: {
 			x: 0,
@@ -29,76 +28,72 @@ define(function(require, exports, module) {
 		},
 		hpShape: {
 			x: 0,
-			y: 106,
-			width: 116,
-			height: 10
+			y: 94,
+			width: 110,
+			height: 12
 		},
 		hpText: {
-			x: 0,
-			y: 96
+			x: 20,
+			y: 89
 		},
 		name: {
-			x: 50,
-			y: 0
-		},
-		level: {
-			x: 0,
-			y: 76
+			x: 45,
+			y: -10
 		},
 		rune: {
-			width: 53
+			width: 55
 		},
 		autoButton: {
-			x: 136,
-			y: 904
+			x: 449,
+			y: 649
 		},
 		handButton: {
-			x: 388,
-			y: 904
+			x: 257,
+			y: 649
 		},
-		turnIndex: {
-			x: 304,
-			y: 904
+		turnButton: {
+			x: 257,
+			y: 649
 		},
 		margin: {
-			f2f: 10,
-			r2r: 10
+			f2f: 8,
+			r2r: 15
 		},
 		showNums: 5
+
 	};
 
 	exports.playerGroup = {
 		battleGroup: {
 			x: 0,
-			y: 452
+			y: 457
 		},
 		waitGroup: {
 			x: 0,
-			y: 316
+			y: 391
 		},
 		roleGroup: {
-			x: 10,
-			y: 200
+			x: 18,
+			y: 277
 		},
 		hpShape: {
 			turn: false
 		},
 		runeGroup: {
-			x: 136,
-			y: 200
+			x: 140,
+			y: 321
 		},
 		fightGroup: {
 			x: 0,
 			y: 0
 		},
 		diedFighter: {
-			x: 514,
-			y: 316
+			x: 504,
+			y: 274
 		},
-
 		fighterXY: {
-			x: 10,
-			y: 10
+			x: 9,
+			y: 0
 		},
 		runeXY: {
 			x: 0,
@@ -117,29 +112,29 @@ define(function(require, exports, module) {
 		},
 		roleGroup: {
 			x: 514,
-			y: 136
+			y: 122
 		},
 		hpShape: {
 			turn: true
 		},
 		runeGroup: {
 			x: 0,
-			y: 200
+			y: 125
 		},
 		fightGroup: {
 			x: 0,
-			y: 252
+			y: 270
 		},
 		diedFighter: {
 			x: 0,
 			y: 10
 		},
 		fighterXY: {
-			x: 514,
-			y: 10
+			x: 513,
+			y: 0
 		},
 		runeXY: {
-			x: 451,
+			x: 445,
 			y: 0
 		}
 	};
@@ -159,18 +154,15 @@ define(function(require, exports, module) {
 
 	exports.sourceRect = {
 		//按钮
-		normalAutoRect: new createjs.Rectangle(0, 0, 68, 28),
-		normalHandRect: new createjs.Rectangle(0, 33, 68, 28),
-		cancelAutoRect: new createjs.Rectangle(0, 66, 68, 28),
-		cancelHandRect: new createjs.Rectangle(0, 99, 68, 28),
+		handNormalRect: new createjs.Rectangle(0, 0, 183, 56),
+		handCanelRect: new createjs.Rectangle(188, 0, 183, 56),
+		autoNormalRect: new createjs.Rectangle(0, 61, 183, 56),
+		autoCancelRect: new createjs.Rectangle(188, 61, 182, 56),
+		turnNormalRect: new createjs.Rectangle(0, 122, 182, 56),
+		turnCanelRect: new createjs.Rectangle(187, 122, 182, 56),
 		//男女头像
 		womanAvatarRect: new createjs.Rectangle(0, 0, 116, 116),
-		manAvatarRect: new createjs.Rectangle(121, 0, 116, 116),
-		//战斗者状态
-		dieRect: new createjs.Rectangle(0, 0, 116, 116),
-		waitRect: new createjs.Rectangle(121, 0, 116, 116),
-		fightRect: new createjs.Rectangle(242, 0, 116, 180),
-		showRect: new createjs.Rectangle(363, 0, 225, 322)
+		manAvatarRect: new createjs.Rectangle(121, 0, 116, 116)
 	};
 
 });

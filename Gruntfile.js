@@ -87,6 +87,7 @@ module.exports = function(grunt) {
 								"libs/createjs/easeljs/utils/SpriteSheetBuilder.js",
 								"libs/createjs/easeljs/display/DOMElement.js",
 								"libs/createjs/easeljs/filters/Filter.js",
+								"libs/createjs/easeljs/filters/ColorMatrixFilter.js",
 								"libs/createjs/easeljs/ui/Touch.js",
 								"libs/createjs/tweenjs/Tween.js",
 								"libs/createjs/tweenjs/Timeline.js",
@@ -128,6 +129,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.registerTask('load', ['uglify:preloadjs', 'uglify:load']);
-	grunt.registerTask('app', ['transport:app', 'concat:app', 'uglify:easeljs', 'uglify:libsjs','uglify:app']);
+	grunt.registerTask('app', ['transport:app', 'concat:app', 'uglify:easeljs', 'uglify:libsjs', 'uglify:app']);
 	grunt.registerTask('clean', ['clean']);
 };

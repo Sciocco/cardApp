@@ -1,0 +1,282 @@
+{
+	"waits": {
+		"p": [{
+				"id": "p3",
+				"entityId": 1,
+				"level": 10
+			}, {
+				"id": "p4",
+				"entityId": 1,
+				"level": 10
+			}, {
+				"id": "p5",
+				"entityId": 1,
+				"level": 10
+			}, {
+				"id": "p6",
+				"entityId": 1,
+				"level": 10
+			}, {
+				"id": "p7",
+				"entityId": 1,
+				"level": 10
+			}, {
+				"id": "p8",
+				"entityId": 1,
+				"level": 10
+			}
+		],
+		"e": [{
+				"id": "e3",
+				"entityId": 1,
+				"level": 10
+			}, {
+				"id": "e4",
+				"entityId": 1,
+				"level": 8
+			}, {
+				"id": "e5",
+				"entityId": 1,
+				"level": 10
+			}, {
+				"id": "e6",
+				"entityId": 1,
+				"level": 8
+			}, {
+				"id": "e7",
+				"entityId": 1,
+				"level": 10
+			}, {
+				"id": "e8",
+				"entityId": 1,
+				"level": 8
+			}
+		]
+	},
+	"roles": {
+		
+	},
+	"actions": [{
+			"id": "p1",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "e1",
+							"type": 1,
+							"hurt": -100,
+							"status": 1,
+							"buffer": 1
+						}
+					],
+					"skill": 2
+				}
+			]
+		}, {
+			"turnDone": 1
+		}, {
+			"id": "e1",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "p0",
+							"type": 0,
+							"hurt": -100,
+							"status": 1
+						}
+					],
+					"skill": 3
+				}
+			]
+		}, {
+			"id": "e2",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "p1",
+							"type": 1,
+							"hurt": -100,
+							"status": 1
+						}, {
+							"id": "p0",
+							"type": 0,
+							"hurt": -100,
+							"status": 1
+						}
+					],
+					"skill": 1
+				}, {
+					"targets": [{
+							"id": "p0",
+							"type": 0,
+							"hurt": -100,
+							"status": 1
+						}
+					],
+					"skill": 3
+				}
+			]
+		}, {
+			"turnDone": 1
+		}, {
+			"id": "p1",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "e1",
+							"type": 1,
+							"hurt": -100,
+							"status": 1,
+							"buffer": 1
+						}
+					],
+					"skill": 2
+				}
+			]
+		}, {
+			"id": "p2",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "p1",
+							"type": 1,
+							"hurt": 100,
+							"status": 1,
+							"buffer": 1
+						}
+					],
+					"skill": 4
+				}, {
+					"targets": [{
+							"id": "e2",
+							"type": 1,
+							"hurt": -100,
+							"status": 1,
+							"buffer": 1
+						}
+					],
+					"skill": 3
+				}
+			]
+		}, {
+			"turnDone": 1
+		}, {
+			"id": "e1",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "p1",
+							"type": 1,
+							"hurt": -100,
+							"status": 1
+						}
+					],
+					"skill": 3
+				}
+			]
+		}, {
+			"id": "e2",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "p1",
+							"type": 1,
+							"hurt": -100,
+							"status": 1
+						}
+					],
+					"skill": 3
+				}, {
+					"targets": [{
+							"id": "p1",
+							"type": 1,
+							"hurt": -100,
+							"status": 1
+						}, {
+							"id": "p2",
+							"type": 1,
+							"hurt": -100,
+							"status": 1
+						}
+					],
+					"skill": 1
+				}
+			]
+		}, {
+			"id": "e3",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "p0",
+							"type": 0,
+							"hurt": -100,
+							"status": 1
+						}
+					],
+					"skill": 3
+				}
+			]
+		}, {
+			"turnDone": 1
+		}, {
+			"id": "p1",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "e1",
+							"type": 1,
+							"hurt": -100,
+							"status": 1,
+							"buffer": 1
+						}
+					],
+					"skill": 2
+				}
+			]
+		}, {
+			"id": "p2",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "p1",
+							"type": 1,
+							"hurt": 100,
+							"status": 1,
+							"buffer": 1
+						}
+					],
+					"skill": 4
+				}, {
+					"targets": [{
+							"id": "e2",
+							"type": 1,
+							"hurt": -100,
+							"status": 1,
+							"buffer": 1
+						}
+					],
+					"skill": 3
+				}
+			]
+		}, {
+			"id": "p3",
+			"type": 1,
+			"actions": [{
+					"targets": [{
+							"id": "e3",
+							"type": 1,
+							"hurt": -100,
+							"status": 1,
+							"buffer": 1
+						}
+					],
+					"skill": 2
+				}
+			]
+		}, {
+			"turnDone": 1
+		}
+	],
+	"result": {
+		"sente": 1
+	}
+}

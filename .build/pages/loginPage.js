@@ -1,68 +1,23 @@
-define("app/pages/loginPage", [], function(require, exports, module) {
-    var loading = false;
-    var httpHost = location.href.replace(location.hash, "");
-    var Controller = Spine.Controller.sub({
+define("app/pages/loginPage", [ "../mvc/stack", "../mvc/manager", "../ui/transitionManager", "../ui/noTransition", "../ui/jq.css3animate", "../ui/slideTransition", "../ui/slideDownTransition", "../panels/loginPanel", "../panels/serverPanel" ], function(require, exports, module) {
+    var SpineStack = require("../mvc/stack");
+    var Controller = SpineStack.sub({
         el: "#loginPage",
+        routes: {
+            "/panel/login": "login",
+            "/panel/server": "server"
+        },
         init: function() {
-            $("#loginBtn").on("click", this.proxy(this.login));
+            this.on("contentLoad", this.proxy(this.contentLoad));
         },
-        login: function() {
-            if (loading) {
-                return;
-            }
-            loading = true;
-            var username = $("#loginUser").val().trim();
-            var pwd = $("#loginPwd").val().trim();
-            $("#loginPwd").val("");
-            if (!username) {
-                alert("Username is required!");
-                loading = false;
-                return;
-            }
-            if (!pwd) {
-                alert("Password is required!");
-                loading = false;
-                return;
-            }
-            // $.post(httpHost + 'login', {
-            // 	username: username,
-            // 	password: pwd
-            // }, function(data) {
-            // 	if (data.code === 501) {
-            // 		alert('Username or password is invalid!');
-            // 		loading = false;
-            // 		return;
-            // 	}
-            // 	if (data.code !== 200) {
-            // 		alert('Username is not exists!');
-            // 		loading = false;
-            // 		return;
-            // 	}
-            //test data
-            var data = {
-                user: {
-                    id: 1
-                },
-                player: {
-                    areaId: "5"
-                }
-            };
-            this.afterLogin(data);
-            localStorage.setItem("username", username);
+        contentLoad: function() {
+            var loginPanel = require("../panels/loginPanel");
+            this.addChild("login", loginPanel);
+            this.navigate("/panel/login", true);
         },
-        afterLogin: function(data) {
-            var app = window.APP;
-            var userData = data.user;
-            var playerData = data.player;
-            var areaId = playerData.areaId;
-            if (!!userData) {
-                app.uid = userData.id;
-            }
-            app.playerId = playerData.id;
-            app.areaId = areaId;
-            app.player = playerData;
-            //加载资源
-            this.parent.enterGame();
+        enterServer: function() {
+            var serverPanel = require("../panels/serverPanel");
+            this.addChild("server", serverPanel);
+            this.navigate("/panel/server", true);
         }
     });
     var controller = new Controller();

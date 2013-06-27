@@ -224,7 +224,6 @@ this.APP = this.APP || {};
     preload.addEventListener("fileload", handleFileLoad);
     preload.addEventListener("progress", handleOverallProgress);
     preload.addEventListener("fileprogress", handleFileProgress);
-    preload.addEventListener("complete", handleFileComplete);
     preload.addEventListener("error", handleFileError);
     preload.setMaxConnections(5);
   }
@@ -298,7 +297,40 @@ this.APP = this.APP || {};
 
   init();
 
+  preload.loadCard = function(id, callback) {
+    preload.removeAllEventListeners("complete");
+    preload.addEventListener("complete", callback);
+
+    var cards = [];
+
+    if (!preload.getResult("card-large-" + id)) {
+      cards.push({
+        id: "card-large-" + id,
+        src: "images/card/large/bA" + id + ".png"
+      });
+    }
+
+    if (!preload.getResult("card-normal-" + id)) {
+      cards.push({
+        id: "card-normal-" + id,
+        src: "images/card/normal/sA" + id + ".png"
+      });
+    }
+
+    if (!preload.getResult("card-small-" + id)) {
+      cards.push({
+        id: "card-small-" + id,
+        src: "images/card/small/fA" + id + ".png"
+      });
+    }
+
+    preload.loadManifest(cards, false, app.config.ASSET_URL);
+    preload.load();
+  };
+
   preload.loadResource = function() {
+    preload.removeAllEventListeners("complete");
+    preload.addEventListener("complete", handleFileComplete);
     app.loadScript(resourceUrl("js/resources.js", 'resources'), preload._loadResource);
   };
 
@@ -318,7 +350,7 @@ this.APP = this.APP || {};
 
     preload.loadManifest(resources.sounds, false, app.config.ASSET_URL);
     preload.loadManifest(resources.images, false, app.config.ASSET_URL);
-    preload.loadManifest(resources.character, false, app.config.ASSET_URL);
+    preload.loadManifest(resources.cardFrame, false, app.config.ASSET_URL);
     preload.loadManifest(resources.skill, false, app.config.ASSET_URL);
     preload.loadManifest(resources.rune, false, app.config.ASSET_URL);
     preload.loadManifest(config, false);

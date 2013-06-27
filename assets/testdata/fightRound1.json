@@ -1,0 +1,54 @@
+{
+	"waits": {
+		"p": [{
+				"id": "p3",
+				"entityId": 3,
+				"level": 10
+			}
+		],
+		"e": [{
+				"id": "e3",
+				"entityId": 5,
+				"level": 10
+			}
+		]
+	},
+	"roles": {},
+	"actions": [{
+			"p": [{
+					"id": "p1",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "e0",
+									"type": 0,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}
+			],
+			"e": [{
+					"id": "e1",
+					"type": 1,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
+				}
+			]
+		}
+	],
+	"result": {
+	}
+}
