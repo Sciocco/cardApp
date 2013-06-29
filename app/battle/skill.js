@@ -22,7 +22,7 @@ define(function(require, exports, module) {
 
 	p.initData = function(id) {
 		var data = dataApi.fightskill.findById(id);
-		this.type = data.type;
+		this.nature = data.nature;
 	};
 
 

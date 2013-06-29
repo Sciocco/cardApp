@@ -26,16 +26,23 @@ define(function(require, exports, module) {
 		y: 14
 	});
 
-	var turnIndex = new createjs.Text('', "bold 22px Arial", "#fff").set({
-		x: 45,
-		y: 34
+	var turnIndex = new createjs.Text('', "bold 24px Arial", "#fff").set({
+		x: 42,
+		y: 36
 	});
 
 	turnPointer.addChild(pointerBg, pointer, pointerInfo, turnIndex);
 
-
 	turnPointer.setTurn = function(index, current) {
+
+		if (index < 10) {
+			turnIndex.x = 50;
+		} else {
+			turnIndex.x = 42;
+		}
+
 		turnIndex.text = index;
+
 
 		if (battleViewData.fighters[current] === battleViewData.fighters.player) {
 

@@ -45,10 +45,23 @@
 							"skill": 3
 						}
 					]
+				}, {
+					"id": "r1",
+					"type": 0,
+					"actions": [{
+							"targets": [{
+									"id": "p1",
+									"type": 1,
+									"hurt": -100,
+									"status": 1
+								}
+							],
+							"skill": 3
+						}
+					]
 				}
 			]
 		}
 	],
-	"result": {
-	}
+	"result": {}
 }

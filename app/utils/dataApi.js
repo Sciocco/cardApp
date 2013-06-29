@@ -32,7 +32,11 @@ define(function(require, exports, module) {
   var fightskill = new Data('fightskill');
   fightskill.set(preload.getResult('fightskillData'));
 
+  var rune = new Data('rune');
+  rune.set(preload.getResult('runeData'));
+
   exports.character = character;
   exports.fightskill = fightskill;
+  exports.rune = rune;
 
 });

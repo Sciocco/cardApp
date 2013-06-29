@@ -50,8 +50,8 @@ define(function(require, exports, module) {
 	});
 
 	function battleStart() {
-		battleView.initRole(battleModel.roles);
-		battleView.initRune(battleModel.runes);
+		battleView.initRoles(battleModel.roles);
+		battleView.initRunes(battleModel.runes);
 	}
 
 	function onTurnReady() {
@@ -125,8 +125,6 @@ define(function(require, exports, module) {
 			return;
 		}
 
-
-
 		battleView.turnReadyDone(isAuto);
 	}
 
@@ -183,7 +181,7 @@ define(function(require, exports, module) {
 
 		var actions = battleModel.getCurrentActions();
 
-		if (actions) {
+		if (actions && actions.length > 0) {
 			canFight = true;
 			battleModel.actionList = actions;
 		}

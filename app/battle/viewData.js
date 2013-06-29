@@ -59,7 +59,7 @@ define(function(require, exports, module) {
 			f2f: 8,
 			r2r: 15
 		},
-		showNums: 5
+		showNums: 2
 
 	};
 

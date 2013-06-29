@@ -28,7 +28,24 @@
 			"hp": 1720,
 			"name": "张三",
 			"avatar": 1,
-			"runes": [15, 4, 32, 20]
+			"runes": [{
+					"id": "r1",
+					"entityId": 1,
+					"level": 10
+				}, {
+					"id": "r2",
+					"entityId": 3,
+					"level": 10
+				}, {
+					"id": "r3",
+					"entityId": 5,
+					"level": 10
+				}, {
+					"id": "r4",
+					"entityId": 7,
+					"level": 10
+				}
+			]
 		},
 		"e": {
 			"id": "e0",
@@ -37,7 +54,24 @@
 			"hp": 1850,
 			"name": "李四",
 			"avatar": null,
-			"runes": [5, 8, 11, 13]
+			"runes": [{
+					"id": "r1",
+					"entityId": 2,
+					"level": 10
+				}, {
+					"id": "r2",
+					"entityId": 4,
+					"level": 10
+				}, {
+					"id": "r3",
+					"entityId": 6,
+					"level": 10
+				}, {
+					"id": "r4",
+					"entityId": 8,
+					"level": 10
+				}
+			]
 		}
 	},
 	"actions": [{}],

@@ -1,37 +1,32 @@
 {
 	"1": {
-		"name": "普通攻击",
+		"name": "火墙的爸爸",
 		"desc": "放了一把火11",
-		"type": 1
+		"nature": 1
 	},
 	"2": {
 		"name": "火墙",
 		"desc": "放了一把火1",
-		"attack": 30,
-		"type": 2
+		"nature": 1
 	},
 	"3": {
 		"name": "火墙",
 		"desc": "放了一把火",
-		"attack": 30,
-		"type": 3
+		"nature": 1
 	},
 	"4": {
 		"name": "生命之光",
 		"desc": "这个是生命之光",
-		"attack": 30,
-		"type": 4
+		"nature": 1
 	},
 	"5": {
 		"name": "火墙",
 		"desc": "放了一把火",
-		"attack": 30,
-		"type": 5
+		"nature": 1
 	},
 	"6": {
 		"name": "火墙",
 		"desc": "放了一把火",
-		"attack": 30,
-		"type": 5
+		"nature": 1
 	}
 }

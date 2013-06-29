@@ -1,7 +1,5 @@
 define(function(require, exports, module) {
 
-
-
 	var viewData = require("./viewData");
 
 	var statusViewData = viewData.fighterStatus;
@@ -233,7 +231,7 @@ define(function(require, exports, module) {
 	};
 
 
-	p.actionsAttack = function(fighter, actions, callback) {
+	p.fighterActionsAttack = function(fighter, actions, callback) {
 		var _this = this;
 		var action = actions.shift();
 		var targets = action.targets;
@@ -257,7 +255,7 @@ define(function(require, exports, module) {
 				};
 			} else {
 				func = function() {
-					_this.actionsAttack(fighter, actions, callback);
+					_this.fighterActionsAttack(fighter, actions, callback);
 				};
 			}
 
@@ -279,7 +277,7 @@ define(function(require, exports, module) {
 		var _this = this;
 
 		var fight = function(callback) {
-			_this.actionsAttack(fighter, actions, callback);
+			_this.fighterActionsAttack(fighter, actions, callback);
 		};
 
 		var showNums = battleViewData.showNums;
@@ -288,7 +286,7 @@ define(function(require, exports, module) {
 
 		//lastMoveiNDEX  待删除
 
-		if (index >= showNums && this.lastMoveIndex !== index) {
+		if (index >= showNums) {
 
 			callback = this.proxy(this.backFighter, fighter, callback);
 
@@ -304,8 +302,6 @@ define(function(require, exports, module) {
 				x: x
 			}, battleViewData.speed['normal']).call(fight, [callback]);
 
-			this.lastMoveIndex = index;
-
 		} else {
 			fight(callback);
 		}
@@ -313,8 +309,57 @@ define(function(require, exports, module) {
 
 
 
-	p.launchRune = function(fighter, targets, callback) {
+	p.launchRune = function(fighter, actions, callback) {
+		var _this = this;
 
+		var func = function() {
+			fighter.currNums++;
+
+			_this.actionsAttack(actions, callback);
+
+			if (fighter.currNums === fighter.model["nums"]) {
+				fighter.fireEnd();
+			}
+		};
+
+		if (fighter.currNums === 0) {
+			fighter.fireStart();
+			setTimeout(func, 500);
+		} else {
+			func();
+		}
+
+	};
+
+
+	p.actionsAttack = function(actions, callback) {
+		var _this = this;
+		var action = actions.shift();
+		var targets = action.targets;
+
+		var func;
+		var target;
+
+		if (actions.length === 0) {
+			func = function() {
+				callback();
+			};
+		} else {
+			func = function() {
+				_this.actionsAttack(actions, callback);
+			};
+		}
+
+		for (var i = targets.length - 1; i >= 0; i--) {
+			target = _this.battleView.getActionTarget(targets[i], action.skill);
+
+			//如果是最后一个则添加回调
+			if (i === 0) {
+				target.hit(func);
+			} else {
+				target.hit();
+			}
+		}
 	};
 
 

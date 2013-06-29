@@ -15,6 +15,7 @@ define(function(require, exports, module) {
 
 	var viewData = require("./viewData");
 	var turnPointer = require("./turnPointer");
+	var dataApi = require("../utils/dataApi");
 
 	var battleViewData = viewData.battleGroup;
 	var playerViewData = viewData.playerGroup;
@@ -35,7 +36,6 @@ define(function(require, exports, module) {
 	p.enemyRole = {};
 	p.playerRunes = {};
 	p.enemyRunes = {};
-
 
 
 	p.EVENT_WAIT_FIGHTER = 'waitFighter';
@@ -97,6 +97,7 @@ define(function(require, exports, module) {
 		this.stage.addChild(this.playerGroup, this.enemyGroup);
 
 		this.stage.addChild(turnPointer);
+
 	};
 
 	p.drawBackground = function() {
@@ -133,7 +134,7 @@ define(function(require, exports, module) {
 		this.trigger(this.EVENT_HAND_FIGHT);
 	};
 
-	p.initRole = function(modelData) {
+	p.initRoles = function(modelData) {
 		this.playerRole = new Role(modelData.player);
 		this.enemyRole = new Role(modelData.enemy);
 
@@ -141,21 +142,65 @@ define(function(require, exports, module) {
 		this.enemyGroup.addRole(this.enemyRole);
 	};
 
-	p.initRune = function(modelData) {
-		var rune;
+	p.initRunes = function(modelData) {
+
 		var _this = this;
 
-		modelData.player.forEach(function(v) {
-			rune = new Rune(v);
+		var rune;
+		modelData.player.forEach(function(model) {
+
+			rune = _this.initRune(model);
+
 			_this.playerGroup.addRune(rune);
-			_this.playerRunes[v] = rune;
+			_this.playerRunes[model['id']] = rune;
+
 		});
 
-		modelData.enemy.forEach(function(v) {
-			rune = new Rune(v);
+		modelData.enemy.forEach(function(model) {
+
+			rune = _this.initRune(model);
+
 			_this.enemyGroup.addRune(rune);
-			_this.enemyRunes[v] = rune;
+			_this.enemyRunes[model['id']] = rune;
+
 		});
+	};
+
+
+	p.initRune = function(runeModel) {
+		var rune;
+		var entity = dataApi.rune.findById(runeModel['entityId']);
+		var fightskill = dataApi.fightskill;
+
+		var level = runeModel['level'];
+
+		runeModel['star'] = entity['star'];
+		runeModel['name'] = entity['name'];
+		runeModel['nature'] = entity['nature'];
+		runeModel['desc'] = entity['desc'];
+		runeModel['nums'] = entity['nums'];
+
+		var skill, v, k, name;
+		var skills = entity['skill'];
+
+		runeModel['enableskill'] = [];
+		runeModel['fightskill'] = '';
+
+		for (k in skills) {
+			v = skills[k];
+			skill = fightskill.findById(k);
+
+			name = skill.name + v.level;
+			if (level < v.enableLevel) {
+				name = name + "(强化" + v.enableLevel + "级时解锁)";
+			} else {
+				runeModel['enableskill'].push(name);
+			}
+			runeModel['fightskill'] = runeModel['fightskill'] + name + "\n" + skill.desc + "\n\n";
+		}
+
+		rune = new Rune(runeModel);
+		return rune;
 	};
 
 	p.showTurn = function(pIndex, current) {
@@ -184,7 +229,6 @@ define(function(require, exports, module) {
 
 	};
 
-
 	p.isFullWaitFighter = function(current) {
 		var battleGroup = this[current + 'Group'];
 
@@ -194,24 +238,22 @@ define(function(require, exports, module) {
 		return false;
 	};
 
-
 	p.turnReadyDone = function(isAutoFight) {
 
 		setTimeout(createjs.proxy(function() {
 			var k;
 
-			if (isAutoFight === false) {
-				//移除所有己方等待组的卡牌和准备组的卡牌 
-				var readyGroup = this.currentBattleGroup.readyGroup;
-				var waitGroup = this.currentBattleGroup.waitGroup;
+			//移除所有己方等待组的卡牌和准备组的卡牌 
+			var readyGroup = this.currentBattleGroup.readyGroup;
+			var waitGroup = this.currentBattleGroup.waitGroup;
 
-				readyGroup.forEach(function(v) {
-					waitGroup.removeChild(v);
-				});
+			readyGroup.forEach(function(v) {
+				waitGroup.removeChild(v);
+			});
 
-				readyGroup = [];
+			readyGroup = [];
 
-			} else if (isAutoFight === true) {
+			if (isAutoFight === true) {
 				//将所有等待时间为0的战斗者推入战斗组
 				for (k in this.currentFighterTeam) {
 					if (this.currentFighterTeam[k].model['currWaitTime'] === 0 && (this.currentFighterTeam[k].status === statusViewData.WAIT || this.currentFighterTeam[k].status === statusViewData.READY_BEFORE)) {
@@ -227,8 +269,6 @@ define(function(require, exports, module) {
 			for (k in this.enemyTeam) {
 				this.enemyTeam[k].costWaitTime();
 			}
-
-			this.currentBattleGroup.lastMoveIndex = null;
 
 			this.trigger(this.EVENT_TURN_FIGHT);
 

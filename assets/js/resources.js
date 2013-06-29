@@ -47,6 +47,36 @@
 				id: "fighterReady-sprite",
 				src: "images/effect/fighterReady.json"
 			}, {
+				id: "runeAttack",
+				src: "images/effect/runeAttack.png"
+			}, {
+				id: "runeAttack-sprite",
+				src: "images/effect/runeAttack.json"
+			}, {
+				id: "runeFire-1",
+				src: "images/effect/runeFire-1.png"
+			}, {
+				id: "runeFire-sprite-1",
+				src: "images/effect/runeFire-1.json"
+			}, {
+				id: "runeFire-2",
+				src: "images/effect/runeFire-2.png"
+			}, {
+				id: "runeFire-sprite-2",
+				src: "images/effect/runeFire-2.json"
+			}, {
+				id: "runeFire-3",
+				src: "images/effect/runeFire-3.png"
+			}, {
+				id: "runeFire-sprite-3",
+				src: "images/effect/runeFire-3.json"
+			}, {
+				id: "runeFire-4",
+				src: "images/effect/runeFire-4.png"
+			}, {
+				id: "runeFire-sprite-4",
+				src: "images/effect/runeFire-4.json"
+			}, {
 				id: "star-1",
 				src: "images/star/1.png"
 			}, {
@@ -72,33 +102,45 @@
 				src: "images/turnpointer/pointerInfo.png"
 			}
 		],
-		cardFrame: [{
+		figureFrame: [{
 				id: "cardFrame-wait",
-				src: "images/cardFrame/wait.png"
+				src: "images/figureFrame/wait.png"
 			}, {
 				id: "cardFrame-large-1",
-				src: "images/cardFrame/large-1.png"
+				src: "images/figureFrame/large-1.png"
 			}, {
 				id: "cardFrame-large-2",
-				src: "images/cardFrame/large-2.png"
+				src: "images/figureFrame/large-2.png"
 			}, {
 				id: "cardFrame-large-3",
-				src: "images/cardFrame/large-3.png"
+				src: "images/figureFrame/large-3.png"
 			}, {
 				id: "cardFrame-large-4",
-				src: "images/cardFrame/large-4.png"
+				src: "images/figureFrame/large-4.png"
 			}, {
 				id: "cardFrame-normal-1",
-				src: "images/cardFrame/normal-1.png"
+				src: "images/figureFrame/normal-1.png"
 			}, {
 				id: "cardFrame-normal-2",
-				src: "images/cardFrame/normal-2.png"
+				src: "images/figureFrame/normal-2.png"
 			}, {
 				id: "cardFrame-normal-3",
-				src: "images/cardFrame/normal-3.png"
+				src: "images/figureFrame/normal-3.png"
 			}, {
 				id: "cardFrame-normal-4",
-				src: "images/cardFrame/normal-4.png"
+				src: "images/figureFrame/normal-4.png"
+			}, {
+				id: "runeFrame-1",
+				src: "images/figureFrame/rune-1.png"
+			}, {
+				id: "runeFrame-2",
+				src: "images/figureFrame/rune-2.png"
+			}, {
+				id: "runeFrame-3",
+				src: "images/figureFrame/rune-3.png"
+			}, {
+				id: "runeFrame-4",
+				src: "images/figureFrame/rune-4.png"
 			}
 		],
 		skill: skill,
@@ -109,6 +151,9 @@
 			}, {
 				id: "fightskillData",
 				src: "config/fightskill.json"
+			}, {
+				id: "runeData",
+				src: "config/rune.json"
 			}
 		],
 		scripts: ['js/app.js'],

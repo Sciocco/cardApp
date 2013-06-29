@@ -6,7 +6,8 @@ define(function(require, exports, module) {
 	var statusViewData = viewData.fighterStatus;
 	var rectViewData = viewData.sourceRect;
 	var battleViewData = viewData.battleGroup;
-
+	var fontNormal = battleViewData.font.normal;
+	var fontLarge = battleViewData.font.large;
 
 	var effect = require("./effect");
 	var fighterAttackEffect = effect.fighterAttackEffect;
@@ -15,8 +16,6 @@ define(function(require, exports, module) {
 
 	var preload = window.APP.preload;
 
-	var fontNormal = battleViewData.font.normal;
-	var fontLarge = battleViewData.font.large;
 
 	var Fighter = function(model, status) {
 		this.initialize(model);
@@ -111,6 +110,13 @@ define(function(require, exports, module) {
 				this.name = new createjs.Text(this.model["name"], fontNormal, "#fff");
 			}
 
+
+			this.lessHp = new createjs.Text('', fontLarge, "#ff0000").set({
+				x: 50,
+				y: 152,
+				alpha: 0
+			});
+
 			this.fightFighterContainer.scaleX = 0.99;
 			this.fightFighterContainer.scaleY = 0.95;
 
@@ -118,6 +124,7 @@ define(function(require, exports, module) {
 			this.fightFighterContainer.addChild(this.fightFrame);
 			this.fightFighterContainer.addChild(this.currAtk);
 			this.fightFighterContainer.addChild(this.currHp);
+			this.fightFighterContainer.addChild(this.lessHp);
 		}
 
 		this.name.set({
@@ -338,6 +345,18 @@ define(function(require, exports, module) {
 		var currHp = data['hurt'] + this.model['currHp'];
 		this.model['currHp'] = currHp <= 0 ? 0 : currHp;
 
+		this.lessHp.set({
+			text: data['hurt'],
+			alpha: 1
+		});
+
+		if (data['hurt'] > 0) {
+			this.lessHp.color = "#00FF00";
+		} else {
+			this.lessHp.color = "#ff0000";
+		}
+
+
 		skill.addEventListener('animationend', function() {
 
 			_this.removeChild(skill);
@@ -355,7 +374,14 @@ define(function(require, exports, module) {
 
 			createjs.Tween.get(_this.currHp).to({
 				text: _this.model['currHp']
-			}, battleViewData.speed['fast']);
+			}, battleViewData.speed['normal']);
+
+			createjs.Tween.get(_this.lessHp).to({
+				alpha: 0,
+				y: _this.lessHp.y - 50
+			}, battleViewData.speed['normal']).call(function() {
+				_this.lessHp.y = _this.lessHp.y + 50;
+			});
 
 
 			if (data.status === 0) {

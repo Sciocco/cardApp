@@ -39,7 +39,7 @@ define(function(require, exports, module) {
       var key, _ref;
 
       Container.__super__.constructor.apply(this, arguments);
-      
+
       //分配控制器
       _ref = this.controllers;
       for (key in _ref) {

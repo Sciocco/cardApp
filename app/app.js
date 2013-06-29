@@ -350,7 +350,7 @@ this.APP = this.APP || {};
 
     preload.loadManifest(resources.sounds, false, app.config.ASSET_URL);
     preload.loadManifest(resources.images, false, app.config.ASSET_URL);
-    preload.loadManifest(resources.cardFrame, false, app.config.ASSET_URL);
+    preload.loadManifest(resources.figureFrame, false, app.config.ASSET_URL);
     preload.loadManifest(resources.skill, false, app.config.ASSET_URL);
     preload.loadManifest(resources.rune, false, app.config.ASSET_URL);
     preload.loadManifest(config, false);

@@ -134,8 +134,16 @@ define(function(require, exports, module) {
 		console.log(this.currentFighter);
 
 		console.log("-----------------");
+
+		var currentActions = this.getCurrentActions(),
+			length;
+
+		if (currentActions) {
+			length = currentActions.length;
+		}
+
 		//检查是否战斗结束,如果战斗结束,则销毁不需要的变量.
-		if (this.actions.length > 0 || this.waits[this.currentFighter].length > 0 || !this.isAutoFight) {
+		if (length > 0 || this.waits[this.currentFighter].length > 0 || !this.isAutoFight) {
 
 			if (this.currentFighter === battleViewData.fighters.player) {
 				this.setCurrentActions();
