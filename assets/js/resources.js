@@ -3,6 +3,7 @@
 	var i;
 	var skill = [];
 	var rune = [];
+	var buffer = [];
 
 	for (i = 1; i <= 4; i++) {
 		skill.push({
@@ -12,6 +13,17 @@
 		skill.push({
 			id: "skill-sprite-" + i,
 			src: "images/skill/" + i + ".json"
+		});
+	}
+
+	for (i = 1; i <= 4; i++) {
+		skill.push({
+			id: "buffer-" + i,
+			src: "images/buffer/" + i + ".png"
+		});
+		skill.push({
+			id: "buffer-sprite-" + i,
+			src: "images/buffer/" + i + ".json"
 		});
 	}
 
@@ -38,45 +50,6 @@
 				id: "fightButton",
 				src: "images/fightButton.png"
 			}, {
-				id: "fighterAttack",
-				src: "images/effect/fighterAttack.png"
-			}, {
-				id: "fighterReady",
-				src: "images/effect/fighterReady.png"
-			}, {
-				id: "fighterReady-sprite",
-				src: "images/effect/fighterReady.json"
-			}, {
-				id: "runeAttack",
-				src: "images/effect/runeAttack.png"
-			}, {
-				id: "runeAttack-sprite",
-				src: "images/effect/runeAttack.json"
-			}, {
-				id: "runeFire-1",
-				src: "images/effect/runeFire-1.png"
-			}, {
-				id: "runeFire-sprite-1",
-				src: "images/effect/runeFire-1.json"
-			}, {
-				id: "runeFire-2",
-				src: "images/effect/runeFire-2.png"
-			}, {
-				id: "runeFire-sprite-2",
-				src: "images/effect/runeFire-2.json"
-			}, {
-				id: "runeFire-3",
-				src: "images/effect/runeFire-3.png"
-			}, {
-				id: "runeFire-sprite-3",
-				src: "images/effect/runeFire-3.json"
-			}, {
-				id: "runeFire-4",
-				src: "images/effect/runeFire-4.png"
-			}, {
-				id: "runeFire-sprite-4",
-				src: "images/effect/runeFire-4.json"
-			}, {
 				id: "star-1",
 				src: "images/star/1.png"
 			}, {
@@ -100,6 +73,15 @@
 			}, {
 				id: "turn-pointerInfo",
 				src: "images/turnpointer/pointerInfo.png"
+			}, {
+				id: "fightResultLose",
+				src: "images/fightResultLose.png"
+			}, {
+				id: "fightResultWin",
+				src: "images/fightResultWin.png"
+			}, {
+				id: "skillType",
+				src: "images/skillType.png"
 			}
 		],
 		figureFrame: [{
@@ -143,8 +125,50 @@
 				src: "images/figureFrame/rune-4.png"
 			}
 		],
+		effect: [{
+				id: "fighterAttack",
+				src: "images/effect/fighterAttack.png"
+			}, {
+				id: "fighterReady",
+				src: "images/effect/fighterReady.png"
+			}, {
+				id: "fighterReady-sprite",
+				src: "images/effect/fighterReady.json"
+			}, {
+				id: "runeAttack",
+				src: "images/effect/runeAttack.png"
+			}, {
+				id: "runeAttack-sprite",
+				src: "images/effect/runeAttack.json"
+			}, {
+				id: "runeFire-1",
+				src: "images/effect/runeFire-1.png"
+			}, {
+				id: "runeFire-sprite-1",
+				src: "images/effect/runeFire-1.json"
+			}, {
+				id: "runeFire-2",
+				src: "images/effect/runeFire-2.png"
+			}, {
+				id: "runeFire-sprite-2",
+				src: "images/effect/runeFire-2.json"
+			}, {
+				id: "runeFire-3",
+				src: "images/effect/runeFire-3.png"
+			}, {
+				id: "runeFire-sprite-3",
+				src: "images/effect/runeFire-3.json"
+			}, {
+				id: "runeFire-4",
+				src: "images/effect/runeFire-4.png"
+			}, {
+				id: "runeFire-sprite-4",
+				src: "images/effect/runeFire-4.json"
+			}
+		],
 		skill: skill,
 		rune: rune,
+		buffer: buffer,
 		config: [{
 				id: "characterData",
 				src: 'config/character.json'

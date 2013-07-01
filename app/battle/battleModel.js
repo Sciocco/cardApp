@@ -10,9 +10,12 @@ define(function(require, exports, module) {
 	p.isAutoFight = false;
 	p.currentFighter = null; //当前回合方
 	p.turnIndex = 0; //当前回合数
-	p.actionIndexInTurn = null;
+	p.actionIndexInTurn = 0;
 	p.actionList = []; //动作列表
 
+
+
+	p.startFightTurn = null;
 	p.roles = {};
 	p.runes = {};
 	p.waits = {};
@@ -25,6 +28,7 @@ define(function(require, exports, module) {
 	p.EVENT_TURN_READY = "turnReady";
 	p.EVENT_FIGHTER_ACTION_START = "ighterActionStart";
 	p.EVENT_TURN_FIGHT_DONE = "turnFightDone";
+	p.EVENT_FIGHT_DONE = "fightDone";
 
 	p.roleHandle = function(data) {
 		this.roles.player = data.p;
@@ -54,8 +58,6 @@ define(function(require, exports, module) {
 
 	p.actionsHandle = function(data) {
 		this.actions = this.actions.concat(data);
-		var a = {};
-		console.log('acitons', $.extend(a, this.actions));
 	};
 
 	p._nextTurn = function() {
@@ -82,6 +84,9 @@ define(function(require, exports, module) {
 
 		this.roleHandle(data.roles);
 		this.waitsHandle(data.waits);
+
+		this.startFightTurn = data.actions.length*2;
+
 		this.actionsHandle(data.actions);
 		//每局开始前初始化
 		this.turnIndex = 0;
@@ -100,12 +105,12 @@ define(function(require, exports, module) {
 	};
 
 	p.resultHandle = function(data) {
-		if (typeof data.noPhysical !== '' && data.noPhysical === true) {
+		if (typeof data.noPhysical !== "undefined" && data.noPhysical === true) {
 			this.error = "体力不足";
 		}
 
-		if (typeof data.fightEnd !== '') {
-
+		if (typeof data.fightEnd !== "undefined") {
+			this.fightEnd = data.fightEnd;
 		}
 
 		if (this.error !== null) {
@@ -142,18 +147,25 @@ define(function(require, exports, module) {
 			length = currentActions.length;
 		}
 
-		//检查是否战斗结束,如果战斗结束,则销毁不需要的变量.
-		if (length > 0 || this.waits[this.currentFighter].length > 0 || !this.isAutoFight) {
+		console.log('动作列表长度', length);
+
+		console.log('等待者长度', this.waits[this.currentFighter].length);
+
+
+		if (this.fightEnd && this.fightEnd['turnIndex'] === this.turnIndex) {
+
+			this.trigger(this.EVENT_FIGHT_DONE);
+
+		} else if (length > 0 || this.waits[this.currentFighter].length > 0 || !this.isAutoFight) {
 
 			if (this.currentFighter === battleViewData.fighters.player) {
 				this.setCurrentActions();
 			}
-
 			//开始下一个回合
 			this._nextTurn();
 
 		} else {
-			console.log("战斗结束");
+			console.log('战斗结束');
 		}
 
 	};

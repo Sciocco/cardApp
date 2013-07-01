@@ -70,6 +70,7 @@ define(function(require, exports, module) {
 	};
 
 	p.handleTick = function() {
+		this.fpsLabel.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " fps";
 		this.stage.update();
 	};
 
@@ -96,6 +97,12 @@ define(function(require, exports, module) {
 		this.playerGroup.battleView = this.enemyGroup.battleView = this;
 		this.stage.addChild(this.playerGroup, this.enemyGroup);
 
+
+		this.fpsLabel = new createjs.Text("-- fps", "bold 14px Arial", "#FFF");
+		this.fpsLabel.x = 10;
+		this.fpsLabel.y = 20;
+		this.stage.addChild(this.fpsLabel);
+
 		this.stage.addChild(turnPointer);
 
 	};
@@ -121,7 +128,6 @@ define(function(require, exports, module) {
 		});
 		this.handButton.sourceRect = rectViewData.turnNormalRect;
 		this.handButton.addEventListener('click', createjs.proxy(this.handFight, this));
-
 
 		this.stage.addChild(this.autoButton, this.handButton);
 	};
@@ -246,6 +252,8 @@ define(function(require, exports, module) {
 			//移除所有己方等待组的卡牌和准备组的卡牌 
 			var readyGroup = this.currentBattleGroup.readyGroup;
 			var waitGroup = this.currentBattleGroup.waitGroup;
+
+			this.currentBattleGroup.resetFightFighter();
 
 			readyGroup.forEach(function(v) {
 				waitGroup.removeChild(v);

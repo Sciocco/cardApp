@@ -88,8 +88,8 @@ define(function(require, exports, module) {
 			y: 0
 		},
 		diedFighter: {
-			x: 504,
-			y: 274
+			x: 500,
+			y: 258
 		},
 		fighterXY: {
 			x: 9,
@@ -126,8 +126,8 @@ define(function(require, exports, module) {
 			y: 270
 		},
 		diedFighter: {
-			x: 0,
-			y: 10
+			x: 8,
+			y: 125
 		},
 		fighterXY: {
 			x: 513,
@@ -148,8 +148,12 @@ define(function(require, exports, module) {
 		SHOW: "show"
 	};
 
-	exports.skillType = {
-
+	exports.skillTypes = {
+		"1": "defense",
+		"2": "auxiliary",
+		"3": "attack",
+		"4": "reply",
+		"5": "magic"
 	};
 
 	exports.sourceRect = {
@@ -162,7 +166,13 @@ define(function(require, exports, module) {
 		turnCanelRect: new createjs.Rectangle(187, 122, 182, 56),
 		//男女头像
 		womanAvatarRect: new createjs.Rectangle(0, 0, 116, 116),
-		manAvatarRect: new createjs.Rectangle(121, 0, 116, 116)
+		manAvatarRect: new createjs.Rectangle(121, 0, 116, 116),
+		//技能类型
+		defenseSkillRect: new createjs.Rectangle(0, 0, 110, 34),
+		auxiliarySkillRect: new createjs.Rectangle(0, 39, 110, 34),
+		attackSkillRect: new createjs.Rectangle(0, 78, 110, 34),
+		replySkillRect: new createjs.Rectangle(0, 117, 110, 34),
+		magicSkillRect: new createjs.Rectangle(0, 156, 110, 34)
 	};
 
 });

@@ -352,7 +352,9 @@ this.APP = this.APP || {};
     preload.loadManifest(resources.images, false, app.config.ASSET_URL);
     preload.loadManifest(resources.figureFrame, false, app.config.ASSET_URL);
     preload.loadManifest(resources.skill, false, app.config.ASSET_URL);
+    preload.loadManifest(resources.effect, false, app.config.ASSET_URL);
     preload.loadManifest(resources.rune, false, app.config.ASSET_URL);
+    preload.loadManifest(resources.buffer, false, app.config.ASSET_URL);
     preload.loadManifest(config, false);
 
     preload.load();

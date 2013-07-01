@@ -14,6 +14,9 @@ define(function(require, exports, module) {
 	var FighterReadyEffect = effect.FighterReadyEffect;
 
 
+	var Buffer = require("./buffer");
+	var SkillType = require("./skillType");
+
 	var preload = window.APP.preload;
 
 
@@ -25,10 +28,14 @@ define(function(require, exports, module) {
 		}
 	};
 
+
 	var p = Fighter.prototype = new createjs.Container();
 
 	p.Container_initialize = p.initialize;
 	p.status = null;
+
+
+	p.EVENT_DIED = "died";
 
 	p.initialize = function(model) {
 		this.Container_initialize();
@@ -55,7 +62,6 @@ define(function(require, exports, module) {
 			this.hp = new createjs.Text(this.model['hp'], fontNormal, "#fff");
 
 			this.currWaitTime = new createjs.Text(this.model['currWaitTime'], fontNormal, "#fff");
-
 
 			this.waitFighterContainer.scaleX = 0.98;
 			this.waitFighterContainer.scaleY = 0.92;
@@ -109,7 +115,6 @@ define(function(require, exports, module) {
 			if (!this.name) {
 				this.name = new createjs.Text(this.model["name"], fontNormal, "#fff");
 			}
-
 
 			this.lessHp = new createjs.Text('', fontLarge, "#ff0000").set({
 				x: 50,
@@ -197,7 +202,7 @@ define(function(require, exports, module) {
 	 * @return {[type]} [description]
 	 */
 	p.showStatus = function() {
-
+		var _this = this;
 		if (!this.showFighterContainer) {
 
 			this.showFighterContainer = new createjs.Container();
@@ -206,7 +211,11 @@ define(function(require, exports, module) {
 
 			this.showFighterContainer.addEventListener('click', this.proxy(this.hideShowFighter));
 
-			this.showBg = new createjs.Shape();
+			this.showBg = new createjs.Shape().set({
+				x: 0,
+				y: 0,
+				alpha: 0.8
+			});
 			this.showBg.graphics.beginFill("#000").drawRect(0, 0, battleViewData.stage.width, battleViewData.stage.height);
 
 			this.showFighterFigure = new createjs.Bitmap(preload.getResult("card-large-" + this.model['entityId']));
@@ -217,6 +226,8 @@ define(function(require, exports, module) {
 				x: 0,
 				y: 560
 			});
+
+
 
 			this.waitTime = new createjs.Text(this.model['waitTime'], fontNormal, "#fff");
 			this.cost = new createjs.Text(this.model['cost'], fontLarge, "#fff").set({
@@ -243,6 +254,18 @@ define(function(require, exports, module) {
 			this.showFighterContainer.addChild(this.waitTime);
 			this.showFighterContainer.addChild(this.cost);
 			this.showFighterContainer.addChild(this.star);
+
+
+			this.model['enableskill'].forEach(function(model, i) {
+				console.log(model);
+
+				var skillType = new SkillType(model).set({
+					x: 160,
+					y: 300 - 34 * i - 34
+				});
+				_this.showFighterContainer.addChild(skillType);
+			});
+
 		}
 
 		this.showFighterContainer.set({
@@ -303,9 +326,9 @@ define(function(require, exports, module) {
 	};
 
 	p.diedStatus = function() {
-		this.removeChild(this.fighterData);
-		var diedFigure = this.getDiedFighterFigure();
+		this.removeAllChildren();
 
+		var diedFigure = this.getDiedFighterFigure();
 		this.addChild(diedFigure);
 	};
 
@@ -332,6 +355,37 @@ define(function(require, exports, module) {
 	};
 
 
+	p.hitHp = function(hurt) {
+		var _this = this;
+		//减少角色hp
+		var currHp = hurt + this.model['currHp'];
+		this.model['currHp'] = currHp <= 0 ? 0 : currHp;
+
+		this.lessHp.set({
+			text: hurt,
+			alpha: 1
+		});
+
+		if (hurt > 0) {
+			this.lessHp.color = "#00FF00";
+		} else {
+			this.lessHp.color = "#ff0000";
+		}
+
+		createjs.Tween.get(this.currHp).to({
+			text: this.model['currHp']
+		}, battleViewData.speed['normal']);
+
+		createjs.Tween.get(this.lessHp).to({
+			alpha: 0,
+			y: this.lessHp.y - 50
+		}, battleViewData.speed['normal']).call(function() {
+			_this.lessHp.y = _this.lessHp.y + 50;
+		});
+
+	};
+
+
 	p.hit = function(callback) {
 		var data = this.hitData;
 
@@ -341,70 +395,50 @@ define(function(require, exports, module) {
 
 		var _this = this;
 
-		//减少角色hp
-		var currHp = data['hurt'] + this.model['currHp'];
-		this.model['currHp'] = currHp <= 0 ? 0 : currHp;
-
-		this.lessHp.set({
-			text: data['hurt'],
-			alpha: 1
-		});
-
-		if (data['hurt'] > 0) {
-			this.lessHp.color = "#00FF00";
-		} else {
-			this.lessHp.color = "#ff0000";
-		}
-
 
 		skill.addEventListener('animationend', function() {
 
 			_this.removeChild(skill);
 
-			if (skill.type !== 4) {
+			var func = function() {
+				if (data.status === 0 || _this.model['currHp'] <= 0) {
+					//触发死亡事件  ,里面还会根据技能触发死亡后事件
+					_this.dispatchEvent(_this.EVENT_DIED, _this);
+				}
 
+			};
+
+			//如果技能类型不是攻击类型的则不用动
+			if (skill.type !== 4) {
 				createjs.Tween.get(_this).to({
 					x: _this.x - 10
 				}, battleViewData.speed['fast']).to({
 					x: _this.x + 10
 				}, battleViewData.speed['fast']).to({
 					x: _this.x
-				}, battleViewData.speed['fast']);
+				}, battleViewData.speed['fast']).call(func);
+
+			} else {
+				func();
 			}
 
-			createjs.Tween.get(_this.currHp).to({
-				text: _this.model['currHp']
-			}, battleViewData.speed['normal']);
+			_this.hitHp.call(_this, data["hurt"]);
 
-			createjs.Tween.get(_this.lessHp).to({
-				alpha: 0,
-				y: _this.lessHp.y - 50
-			}, battleViewData.speed['normal']).call(function() {
-				_this.lessHp.y = _this.lessHp.y + 50;
-			});
+			//目标有反击技能  (反击)
 
+			//buffer
+			if (data.buffer) {
+				_this.buffer = new Buffer(data.buffer);
+				_this.fightFighterContainer.addChild(_this.buffer);
 
-			if (data.status === 0) {
-				//触发死亡事件  ,里面还会根据技能触发死亡后事件
-				_this.trigger(this.EVENT_DIED, _this);
+				_this.buffer.gotoAndPlay("all");
+				_this.buffer.currNums++;
 			}
 
 			if (callback !== undefined) {
 				callback();
 			}
 
-			//不能放在技能放完的回调里否则.当点击技能会挂掉
-
-			//如果技能类型不是攻击类型的则不用动
-			//
-
-
-			//目标有无防御技能
-
-			//buffer
-
-			//如果当前攻击者有buffer,则去掉buffer  然后掉血
-			//
 		});
 		skill.gotoAndPlay('all');
 

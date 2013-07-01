@@ -34,7 +34,6 @@ define(function(require, exports, module) {
 	};
 
 
-
 	var RuneFireEffect = function(id) {
 		this.initialize(id);
 	};

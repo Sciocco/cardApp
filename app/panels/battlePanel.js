@@ -13,6 +13,8 @@ define(function(require, exports, module) {
 	var statusViewData = viewData.fighterStatus;
 	var rectViewData = viewData.sourceRect;
 
+	var FightResult = require('../battle/fightResult');
+
 	var Controller = Spine.Controller.sub({
 		"el": "#battlePanel",
 		init: function() {
@@ -25,6 +27,7 @@ define(function(require, exports, module) {
 			battleModel.bind(battleModel.EVENT_TURN_READY, onTurnReady);
 			battleModel.bind(battleModel.EVENT_FIGHTER_ACTION_START, onFighterActionStart);
 			battleModel.bind(battleModel.EVENT_TURN_FIGHT_DONE, onTurnFightDone);
+			battleModel.bind(battleModel.EVENT_FIGHT_DONE, onFightDone);
 
 			//视图事件
 			battleView.bind(battleView.EVENT_TURN_READY_DONE, onTurnReadyDone);
@@ -105,7 +108,10 @@ define(function(require, exports, module) {
 			if (level < v.enableLevel) {
 				name = name + "(强化" + v.enableLevel + "级时解锁)";
 			} else {
-				fighter['enableskill'].push(name);
+				fighter['enableskill'].push({
+					"name": name,
+					"type": skill.type
+				});
 			}
 			fighter['fightskill'] = fighter['fightskill'] + name + "\n" + skill.desc + "\n\n";
 		}
@@ -119,6 +125,7 @@ define(function(require, exports, module) {
 
 	function onTurnReadyDone() {
 		var isAuto = isAutoFight();
+
 		if (!isAuto) {
 			battleView.handButton.sourceRect = rectViewData.turnNormalRect;
 			this.gameStatus = "pause";
@@ -227,6 +234,8 @@ define(function(require, exports, module) {
 
 	function onFighterActionStart() {
 		console.log(battleModel.turnIndex, battleModel.currentAction);
+
+
 		battleView.showActionStart(battleModel.currentAction);
 	}
 
@@ -250,6 +259,13 @@ define(function(require, exports, module) {
 
 		battleModel.actionIndexInTurn++;
 		battleModel.fighterActionStart();
+	}
+
+	function onFightDone() {
+		var fightResult = new FightResult(battleModel.fightEnd);
+		battleView.stage.addChild(fightResult);
+		battleView.pauseGame();
+		fightResult.showResult();
 	}
 
 	function onAutoFight() {
@@ -278,7 +294,7 @@ define(function(require, exports, module) {
 
 	function onHandFight() {
 
-		if (battleView.autoButton.sourceRect === rectViewData.autoCancelRect || battleView.handButton.sourceRect === rectViewData.turnCanelRect) {
+		if (battleView.autoButton.sourceRect === rectViewData.autoCancelRect || battleView.handButton.sourceRect === rectViewData.turnCanelRect|| battleModel.startFightTurn > battleModel.turnIndex) {
 			return;
 		}
 

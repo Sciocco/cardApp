@@ -10,8 +10,8 @@
 									"id": "e1",
 									"type": 1,
 									"hurt": -100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 2
@@ -25,8 +25,8 @@
 									"id": "p1",
 									"type": 1,
 									"hurt": 100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 4
@@ -35,8 +35,8 @@
 									"id": "e2",
 									"type": 1,
 									"hurt": -100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 3
@@ -50,8 +50,8 @@
 									"id": "e3",
 									"type": 1,
 									"hurt": -100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 2
@@ -65,8 +65,8 @@
 									"id": "e4",
 									"type": 1,
 									"hurt": -100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 2
@@ -80,8 +80,8 @@
 									"id": "e5",
 									"type": 1,
 									"hurt": -100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 2
@@ -96,8 +96,8 @@
 									"id": "e0",
 									"type": 0,
 									"hurt": -100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 2

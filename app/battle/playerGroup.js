@@ -60,9 +60,7 @@ define(function(require, exports, module) {
 	};
 
 	battleGroup.resetWaitFighter = function() {
-
 		var x = groupViewData.fighterXY.x;
-
 		this.waitGroup.children.forEach(function(fighter) {
 			fighter.x = x;
 			x = x + battleViewData.fighter.width + battleViewData.margin.f2f;

@@ -37,7 +37,6 @@ define(function(require, exports, module) {
 	p.fireStart = function() {
 		var stage = this.getStage();
 
-
 		var x = (battleViewData.stage.width - 475) / 2;
 		var y = (battleViewData.stage.height - 185) / 2;
 
@@ -48,22 +47,21 @@ define(function(require, exports, module) {
 
 		var fireEffect = new RuneFireEffect(this.model['nature']);
 
+		fireEffect.addEventListener('animationend', function() {
+			stage.removeChild(container);
+		});
+
 		var runeName = new createjs.Text(this.model["name"], fontNormal, "#fff");
 
 		container.addChild(fireEffect, runeName);
 
 		stage.addChild(container);
 
-
 		fireEffect.gotoAndPlay('all');
-
-		setTimeout(function() {
-			stage.removeChild(container);
-		}, 500);
 
 		this.addAttackEffect();
 	};
-
+	//符文增加光环
 	p.addAttackEffect = function() {
 		this.attackEffect = new RuneAttackEffect().set({
 			x: -7,

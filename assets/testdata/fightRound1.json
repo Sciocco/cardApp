@@ -39,7 +39,12 @@
 									"id": "p1",
 									"type": 1,
 									"hurt": -100,
-									"status": 1
+									"status": 1,
+									"buffer": {
+										"id": 1,
+										"hurt": -100,
+										"nums": 1
+									}
 								}
 							],
 							"skill": 3
@@ -63,5 +68,7 @@
 			]
 		}
 	],
-	"result": {}
+	"result": {
+
+	}
 }

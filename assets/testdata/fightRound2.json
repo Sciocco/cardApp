@@ -23,8 +23,8 @@
 									"id": "e1",
 									"type": 1,
 									"hurt": -100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 2
@@ -38,8 +38,8 @@
 									"id": "p1",
 									"type": 1,
 									"hurt": 100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 4
@@ -48,8 +48,8 @@
 									"id": "e0",
 									"type": 0,
 									"hurt": -100,
-									"status": 1,
-									"buffer": 1
+									"status": 1
+									
 								}
 							],
 							"skill": 3

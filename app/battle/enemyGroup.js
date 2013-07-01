@@ -61,7 +61,16 @@ define(function(require, exports, module) {
 
 		this.waitGroup.children.forEach(function(fighter) {
 			fighter.x = x;
-			x = x - battleViewData.fighter.width -battleViewData.margin.f2f;
+			x = x - battleViewData.fighter.width - battleViewData.margin.f2f;
+		});
+	};
+
+	battleGroup.resetFightFighter = function() {
+		var x = groupViewData.fighterXY.x;
+
+		this.fightGroup.children.forEach(function(fighter) {
+			fighter.x = x;
+			x = x - battleViewData.fighter.width - battleViewData.margin.f2f;
 		});
 	};
 

@@ -38,7 +38,7 @@ define(function(require, exports, module) {
 		} else if (fighter.status === statusViewData.WAIT) {
 			createjs.Tween.get(fighter).to({
 				x: x
-			}, battleViewData.speed['fast']);
+			}, battleViewData.speed['normal']);
 		}
 	};
 
@@ -47,9 +47,14 @@ define(function(require, exports, module) {
 		var _this = this;
 		//增加点击事件
 		fighter.addEventListener('click', this.proxy(this.fighterHandler));
+		fighter.addEventListener(fighter.EVENT_DIED, this.proxy(this.diedHandler));
 		this.toggleWaitStatus(fighter);
 	};
 
+	p.diedHandler = function(event) {
+		var fighter = event.target;
+		this.toggleDiedStatus(fighter);
+	};
 
 	p.addRole = function(role) {
 		this.roleGroup = role;
@@ -230,6 +235,15 @@ define(function(require, exports, module) {
 		this.waitGroup.addChild(fighter);
 	};
 
+	p.toggleDiedStatus = function(fighter) {
+		//修改坐标
+		fighter.toggleStatus(statusViewData.DIED);
+		fighter.x = 0;
+		fighter.y = 0;
+		//增加到等待组
+		this.diedFighter.addChild(fighter);
+	};
+
 
 	p.fighterActionsAttack = function(fighter, actions, callback) {
 		var _this = this;
@@ -251,6 +265,14 @@ define(function(require, exports, module) {
 
 			if (actions.length === 0) {
 				func = function() {
+					//如果当前攻击者有buffer,则去掉buffer ..然后执行buffer内容
+					var buffer = fighter.buffer;
+
+					if (buffer && buffer.currNums === buffer.model["nums"]) {
+
+						buffer.endBuffer(fighter);
+					}
+
 					callback();
 				};
 			} else {
@@ -270,7 +292,6 @@ define(function(require, exports, module) {
 				}
 			}
 		});
-
 	};
 
 	p.fighterAttack = function(fighter, actions, callback) {
